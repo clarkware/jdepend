@@ -1,0 +1,193 @@
+
+--------------------------------------------------
+- Package: jdepend.framework
+--------------------------------------------------
+
+Stats:
+    Total Classes: 35
+    Concrete Classes: 31
+    Abstract Classes: 4
+
+    Ca: 3
+    Ce: 2
+
+    A: 0.11
+    I: 0.4
+    D: 0.49
+
+Abstract Classes:
+    jdepend.framework.AbstractParser
+    jdepend.framework.MockAbstractClass
+    jdepend.framework.MockInterface
+    jdepend.framework.ParserListener
+
+Concrete Classes:
+    jdepend.framework.AllTests
+    jdepend.framework.ClassFileParser
+    jdepend.framework.ClassFileParser$AttributeInfo
+    jdepend.framework.ClassFileParser$Constant
+    jdepend.framework.ClassFileParser$FieldOrMethodInfo
+    jdepend.framework.ClassFileParserTest
+    jdepend.framework.CollectAllCyclesTest
+    jdepend.framework.ComponentTest
+    jdepend.framework.ConstraintTest
+    jdepend.framework.CycleTest
+    jdepend.framework.DependencyConstraint
+    jdepend.framework.ExampleTest
+    jdepend.framework.FileManager
+    jdepend.framework.FileManagerTest
+    jdepend.framework.FilterTest
+    jdepend.framework.JDepend
+    jdepend.framework.JDependTestCase
+    jdepend.framework.JarFileParserTest
+    jdepend.framework.JavaClass
+    jdepend.framework.JavaClass$ClassComparator
+    jdepend.framework.JavaClassBuilder
+    jdepend.framework.JavaClassBuilder$1
+    jdepend.framework.JavaPackage
+    jdepend.framework.MetricTest
+    jdepend.framework.MockConcreteClass
+    jdepend.framework.MockConcreteClass$MockInnerClass
+    jdepend.framework.MockPackageClass
+    jdepend.framework.PackageComparator
+    jdepend.framework.PackageFilter
+    jdepend.framework.PropertyConfigurator
+    jdepend.framework.PropertyConfiguratorTest
+
+Depends Upon:
+    junit.framework
+    junit.textui
+
+Used By:
+    jdepend.swingui
+    jdepend.textui
+    jdepend.xmlui
+
+--------------------------------------------------
+- Package: jdepend.swingui
+--------------------------------------------------
+
+Stats:
+    Total Classes: 19
+    Concrete Classes: 18
+    Abstract Classes: 1
+
+    Ca: 0
+    Ce: 1
+
+    A: 0.05
+    I: 1
+    D: 0.05
+
+Abstract Classes:
+    jdepend.swingui.PackageNode
+
+Concrete Classes:
+    jdepend.swingui.AboutDialog
+    jdepend.swingui.AboutDialog$1
+    jdepend.swingui.AboutDialog$2
+    jdepend.swingui.AfferentNode
+    jdepend.swingui.DependTree
+    jdepend.swingui.DependTreeModel
+    jdepend.swingui.EfferentNode
+    jdepend.swingui.JDepend
+    jdepend.swingui.JDepend$1
+    jdepend.swingui.JDepend$2
+    jdepend.swingui.JDepend$3
+    jdepend.swingui.JDepend$4
+    jdepend.swingui.JDepend$5
+    jdepend.swingui.JDepend$6
+    jdepend.swingui.JDepend$AboutAction
+    jdepend.swingui.JDepend$ExitAction
+    jdepend.swingui.JDepend$TreeListener
+    jdepend.swingui.StatusPanel
+
+Depends Upon:
+    jdepend.framework
+
+Used By:
+    Not used by any packages.
+
+--------------------------------------------------
+- Package: jdepend.textui
+--------------------------------------------------
+
+Stats:
+    Total Classes: 1
+    Concrete Classes: 1
+    Abstract Classes: 0
+
+    Ca: 1
+    Ce: 1
+
+    A: 0
+    I: 0.5
+    D: 0.5
+
+Abstract Classes:
+
+Concrete Classes:
+    jdepend.textui.JDepend
+
+Depends Upon:
+    jdepend.framework
+
+Used By:
+    jdepend.xmlui
+
+--------------------------------------------------
+- Package: jdepend.xmlui
+--------------------------------------------------
+
+Stats:
+    Total Classes: 1
+    Concrete Classes: 1
+    Abstract Classes: 0
+
+    Ca: 0
+    Ce: 2
+
+    A: 0
+    I: 1
+    D: 0
+
+Abstract Classes:
+
+Concrete Classes:
+    jdepend.xmlui.JDepend
+
+Depends Upon:
+    jdepend.framework
+    jdepend.textui
+
+Used By:
+    Not used by any packages.
+
+--------------------------------------------------
+- Package: junit.framework
+--------------------------------------------------
+No stats available: package referenced, but not analyzed.
+
+--------------------------------------------------
+- Package: junit.textui
+--------------------------------------------------
+No stats available: package referenced, but not analyzed.
+
+
+--------------------------------------------------
+- Package Dependency Cycles:
+--------------------------------------------------
+
+
+--------------------------------------------------
+- Summary:
+--------------------------------------------------
+
+Name, Class Count, Abstract Class Count, Ca, Ce, A, I, D, V:
+
+jdepend.framework,35,4,3,2,0.11,0.4,0.49,1
+jdepend.swingui,19,1,0,1,0.05,1,0.05,1
+jdepend.textui,1,0,1,1,0,0.5,0.5,1
+jdepend.xmlui,1,0,0,2,0,1,0,1
+junit.framework,0,0,1,0,0,0,1,1
+junit.textui,0,0,1,0,0,0,1,1

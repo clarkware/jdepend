@@ -1,0 +1,1675 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <title>JDepend</title>
+  <meta name="keywords" content="JDepend, Java package dependency, 
+				 Java metrics, Martin Metrics"/>
+  <meta name="description" content="A Java package dependency analyzer
+  that generates design quality metrics."/>
+
+  <style type="text/css">
+<!--
+    body {
+      font-family: Lucida, Verdana, Arial, Geneva, Helvetica, sans-serif;
+      margin-left: 2em;
+      margin-right: 2em;
+      margin-top: 2em;
+      margin-bottom: 2em;
+    }
+
+    a {
+      color: #000090;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: red;
+      text-decoration: underline;
+    }
+
+    div#title { 
+      color: white;
+      background: #000090;
+      font-size: 150%;
+      font-weight: bold;
+      text-align: center;
+      padding-top: 0.125em;
+      padding-bottom: 0.125em;
+    }
+
+    div#summary {
+      margin-left: 4em;
+      margin-right: 4em;
+    }
+
+    div.header {
+      color: #000090;
+      background: #EDEDED;
+      font-weight: bold;
+      border-top: 1px solid #000090;
+      border-left: 1px solid #000090;
+      padding-top: .25em;
+      padding-bottom: .25em;
+      padding-left: 0.5em;
+      margin-top: 1.5em;
+      margin-bottom: 0;
+    }
+
+    div.code-header {
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      background: #000090;
+      padding-top: .25em;
+      padding-bottom: .25em;
+      margin-left: 5em;
+      margin-right: 5em;
+      margin-left: 5em;
+      margin-right: 5em;
+    }
+
+    div.code {
+      background: #EDEDED;
+      border-top: 1px solid #000090;
+      border-bottom: 1px solid #000090;
+      border-right: 1px solid #000090;
+      border-left: 1px solid #000090;
+      padding-left: 2em;
+      margin-top: 0;
+      margin-bottom: 2em;
+      margin-left: 5em;
+      margin-right: 5em;
+    }
+
+    div#copyright {
+      color: #AAAAAA;
+      font-size: 0.8em;
+      text-align: center;
+      margin-top: 3em;
+    } 
+-->
+  </style>
+
+</head>
+
+<body>
+
+<!--
+
+    Title
+
+-->
+
+<div id="title">
+JDepend
+</div>
+
+<!--
+
+    Summary
+
+-->
+
+<div id="summary">
+<p>
+  <b><u>Summary</u></b>
+</p>
+<p>
+JDepend traverses Java class file directories and generates design
+quality metrics for each Java package. JDepend allows you to
+automatically measure the quality of a design in terms of its
+extensibility, reusability, and maintainability to manage package
+dependencies effectively.
+</p>
+<p>
+<i>If you like this kind of automation, you'll love my book, 
+  <a href="http://www.pragmaticprogrammer.com/sk/auto/">Pragmatic Project
+  Automation</a>.
+</i>
+</p>
+</div>
+
+<!--
+    
+    Table of Contents
+    
+-->
+<div class="header">
+Table of Contents
+</div>
+
+<ul>
+  <li><a href="#overview">Overview</a></li>
+  <li><a href="#uses">Why Use JDepend?</a></li>
+  <li><a href="#download">Downloading JDepend</a></li>
+  <li><a href="#installation">Installing JDepend</a></li>
+  <li><a href="#building">Building and Testing JDepend</a></li> 
+  <li><a href="#howtouse">Running JDepend</a></li>
+  <li><a href="#graphical">Graphical UI Navigation</a></li>
+  <li><a href="#cycles">Interpreting Dependency Cycles</a></li>
+  <li><a href="#customize">Customizing JDepend</a></li>
+  <li><a href="#junit">Using JDepend With JUnit</a></li>
+  <li><a href="#fitnesse">Using JDepend With FitNesse</a></li>
+  <li><a href="#ant">Using JDepend With Ant</a></li>
+  <li><a href="#limitations">Limitations</a></li>
+  <li><a href="#support">Support</a></li>
+  <li><a href="#donate">Donate</a></li>
+  <li><a href="#reviews">Design Reviews</a></li>
+  <li><a href="#license">License</a></li>
+  <li><a href="#credits">Acknowledgments</a></li>
+  <li><a href="#resources">Resources</a></li>
+</ul>
+
+<!--
+
+    Overview	
+
+-->
+<div class="header">
+<a name="overview"></a> 
+Overview
+</div>
+<p>
+JDepend traverses Java class file directories and generates design
+quality metrics for each Java package, including:
+</p>
+<ul>
+  <li><b>Number of Classes and Interfaces</b>
+    <p>
+      The number of concrete and abstract classes (and interfaces) in the
+      package is an indicator of the extensibility of the package.
+    </p>
+  </li>
+  <li><b>Afferent Couplings (Ca)</b>
+    <p>
+      The number of other packages that depend upon classes within 
+      the package is an indicator of the package's responsibility.
+    </p>
+  </li>
+  <li><b>Efferent Couplings (Ce)</b>
+    <p>
+      The number of other packages that the classes in the package depend 
+      upon is an indicator of the package's independence.
+    </p>
+  </li>
+  <li><b>Abstractness (A)</b>
+    <p>
+      The ratio of the number of abstract classes (and interfaces) 
+      in the analyzed package to the total number of classes in 
+      the analyzed package.
+    </p>
+    <p>
+      The range for this metric is 0 to 1, with A=0 indicating a
+      completely concrete package and A=1 indicating a completely 
+      abstract package.
+    </p>
+  </li>
+  <li><b>Instability (I)</b>
+    <p>
+      The ratio of efferent coupling (Ce) to total coupling
+      (Ce + Ca) such that I = Ce / (Ce + Ca).  This metric is 
+      an indicator of the package's resilience to change.
+    </p>
+    <p>
+      The range for this metric is 0 to 1, with I=0 indicating
+      a completely stable package and I=1 indicating a completely
+      instable package.
+    </p>
+  </li>
+  <li><b>Distance from the Main Sequence (D)</b>
+    <p>
+      The perpendicular distance of a package from the idealized
+      line A + I = 1.  This metric is an indicator of the package's
+      balance between abstractness and stability.  
+    </p>
+    <p>
+      A package squarely on the main sequence is optimally balanced 
+      with respect to its abstractness and stability.  Ideal packages 
+      are either completely abstract and stable (x=0, y=1) or completely 
+      concrete and instable (x=1, y=0).
+    </p>
+    <p>
+      The range for this metric is 0 to 1, with D=0 indicating
+      a package that is coincident with the main sequence and 
+      D=1 indicating a package that is as far from the main sequence
+      as possible.
+    </p>
+  </li>
+  <li><b>Package Dependency Cycles</b>
+    <p>
+      Package dependency cycles are reported along with the hierarchical 
+      paths of packages participating in package dependency cycles.
+    </p>
+  </li>
+</ul>
+
+<!--
+    
+    Uses
+
+-->
+<div class="header">
+<a name="uses"></a> 
+Why Use JDepend?
+</div>
+<p>
+Before using JDepend, it is important to understand that
+&quot;good&quot; design quality metrics are not necessarily indicative
+of good designs.  Likewise, &quot;bad&quot; design quality metrics are
+not necessarily indicative of bad designs.  The design quality metrics
+produced by JDepend should not be used as yard sticks by which all
+designs are measured.
+</p>
+<p>
+The design quality metrics produced by JDepend are intended to be used
+by designers to measure the designs they create, understand those
+designs, and automatically check that the designs exhibit expected
+qualities while undergoing continuous refactoring.  Refactoring will
+undoubtedly lead to some adjustment of these metrics as the shape of
+the design changes.  
+</p>
+<p>
+<b>Measure Design Quality</b>
+</p>
+<p>
+The quality of a design can be measured in part by quantifying its
+degrees of extensibility, reusability, and maintainability.  These
+qualities are all influenced by the inter-package dependencies of the
+design.  Designs are more extensible when they are independent of
+implementation details, allowing them to adapt to new implementations
+without internal modification or breaking their existing contracts.
+This same independence tends to increase the reuse potential of
+portions of the design.  Independent portions of the design containing
+high-level abstractions can be extracted from portions containing
+implementation details.
+</p>
+<p>
+The maintainability of a design is improved when changes can easily be
+made without propagating to other parts of the system.  JDepend allows
+you to automatically measure the quality of a design in terms of its
+extensibility, reusability, and maintainability to effectively manage
+and control package dependencies.
+</p>
+<p>
+<b>Invert Dependencies</b>
+</p>
+<p>
+The goal of using JDepend is to ultimately invert package dependencies
+such that low-abstraction packages depend upon high-abstraction
+packages.  This inversion of dependencies allows the high-abstraction
+packages to be reused independently while being extensible to an open
+set of implementations.  In general, dependencies upon stable packages
+are desirable, while dependencies upon instable packages are
+undesirable.  JDepend allows dependencies to be iteratively examined
+and refactored as an integral part of software design and development.
+</p>
+<p>
+<b>Foster Parallel, Extreme Programming</b>
+</p>
+<p>
+Packages that are stable should be the centerpieces of a loosely
+coupled application so the speed of the development team is not
+adversely affected by the propagation of software changes.  Stable
+packages form design-by-contract facades to other subsystems, allowing
+teams to develop in parallel at an extreme pace.  Moreover, by
+measuring the software design quality, the overall impact of proposed
+software changes can be accurately estimated.  JDepend allows teams to
+identify and use desirable dependencies in the system and avoid those
+dependencies that cause changes to ripple throughout the system.
+</p>
+<p>
+<b>Isolate Third-Party Package Dependencies</b>
+</p>
+<p>
+Third-party package dependencies can be easily identified and isolated
+by examining the afferent couplings to those packages.  Once the
+dependency on these third-party packages has been measured with
+JDepend, the dependency can be managed by effectively designing
+abstract and stable packages that encapsulate the third-party package
+implementation details.
+</p>
+<p>
+<b>Package Release Modules</b>
+</p>
+<p>
+Packages that are cohesive and independent can be released as
+autonomous modules with their own release schedules and version
+numbers.  Single packages, or groups of related packages collaborating
+in a framework, that are candidates for independent release can be
+harvested by evaluating their design quality metrics using JDepend.
+</p>
+<p>
+<b>Identify Package Dependency Cycles</b>
+</p>
+<p>
+Packages participating in a package dependency cycle are in a deadly
+embrace with respect to reusability and their release cycle.  Package
+dependency cycles can be easily identified by reviewing the textual
+reports of dependency cycles.  Once these dependency cycles have been
+identified with JDepend, they can be broken by employing various
+object-oriented techniques.
+</p>
+
+<!--
+
+    Download	
+
+-->
+<div class="header">
+<a name="download"></a> 
+Downloading JDepend
+</div>
+<p>
+<a href="http://www.clarkware.com/software/jdepend-2.9.1.zip">JDepend
+2.9</a> is the latest major version release.  It includes all the
+minor version changes.
+</p>
+<p>
+The distribution contains a JAR file, source code, sample application,
+API documentation, and this document.
+</p>
+
+
+<!--
+
+    Installation	
+
+-->
+<div class="header">
+<a name="installation"></a> 
+Installing JDepend
+</div>
+<p>
+<b>Windows</b>
+</p>
+<p>
+To install JDepend, follow these steps:
+</p>
+<ol>
+  <li>
+    <p>
+      Unzip the <code>jdepend-&lt;version&gt;.zip</code> distribution
+      file to a directory referred to as <code>%JDEPEND_HOME%</code>.
+    </p>
+  </li>
+  <li>
+    <p>
+      Add JDepend to the classpath:
+    </p>
+    <p>
+      <code>set CLASSPATH=%CLASSPATH%;%JDEPEND_HOME%\lib\jdepend-&lt;version&gt;.jar</code>
+    </p>
+  </li>
+</ol>
+<p>
+<b>Unix (bash)</b>
+</p>
+<p>
+To install JDepend, follow these steps:
+</p>
+<ol>
+  <li>
+    <p>
+      Unzip the <code>jdepend-&lt;version&gt;.zip</code> distribution
+      file to a directory referred to as <code>$JDEPEND_HOME</code>.
+    </p>
+  </li>
+  <li>
+    <p>
+      Change file permissions:
+    </p>
+    <p>
+      <code>chmod -R a+x $JDEPEND_HOME</code>
+    </p>
+  </li>
+  <li>Add JDepend to the classpath:
+    <p>
+      <code>export CLASSPATH=$CLASSPATH:$JDEPEND_HOME/lib/jdepend-&lt;version&gt;.jar</code>
+    </p>
+  </li>
+</ol>
+
+<!--
+
+    Building	
+
+-->
+<div class="header">
+<a name="building"></a> 
+Building and Testing JDepend
+</div>
+<p>
+The JDepend distribution includes the pre-built classes in the
+<code>$JDEPEND_HOME/lib/jdepend-&lt;version&gt;.jar</code> file.
+</p>
+<p>
+<b>Building</b>
+</p>
+<p>
+An <a href="http://jakarta.apache.org/ant" target="_parent">Ant</a>
+build file is included in <code>$JDEPEND_HOME/build.xml</code> to
+build the <code>$JDEPEND_HOME/dist/jdepend-&lt;version&gt;.jar</code>
+file from the included source code.
+</p>
+<p>
+To build JDepend, use:
+</p>
+<div>
+<blockquote>
+<pre>
+cd $JDEPEND_HOME
+ant jar
+</pre>
+</blockquote>
+</div>
+<p>
+<b>Testing</b>
+</p>
+<p>
+The JDepend distribution includes
+<a href="http://www.junit.org" target="_parent">JUnit</a>
+test cases to validate the integrity of JDepend.  
+</p>
+<p>
+To test JDepend, use:
+</p>
+<div>
+<blockquote>
+<pre>
+cd $JDEPEND_HOME
+ant test
+</pre>
+</blockquote>
+</div>
+
+<!--
+
+    How To Use	
+
+-->
+<div class="header">
+<a name="howtouse"></a> 
+Running JDepend
+</div>
+<p>
+JDepend provides a graphical, textual, and XML user interface to
+visualize Java package metrics, dependencies, and cycles.
+</p>
+<p>
+<b>Graphical UI</b>
+</p>
+<p>
+The graphical user interface displays a hierarchical tree for both the
+afferent and efferent couplings of each analyzed Java package.
+</p>
+<p>
+To run JDepend with the graphical user interface, use the following syntax:
+</p>
+<div>
+<blockquote>
+<pre>
+java jdepend.swingui.JDepend [-components &lt;components&gt;] &lt;directory&gt; [directory2 [directory 3] ...]
+</pre>
+</blockquote>
+</div>
+<p>
+For example, to analyze all the Java class files in the
+<code>$JDEPEND_HOME/build</code> directory, use: 
+</p>
+<div>
+<blockquote>
+<pre>
+java jdepend.swingui.JDepend $JDEPEND_HOME/build
+</pre>
+</blockquote>
+</div>
+<p>
+<b>Textual UI</b>
+</p>
+<p>
+The textual user interface displays detailed metrics, dependencies,
+and cycles for each analyzed Java package.  For the convenience of
+importing these metrics into other applications, the summary section
+contains comma-separated metrics for each Java package.
+Alternatively, the XML user interface can be used for easier
+integration with other tools.
+</p>
+<p>
+To run JDepend with the textual user interface, use the following
+syntax:
+</p>
+<div>
+<blockquote>
+<pre>
+java jdepend.textui.JDepend [-components &lt;components&gt;] [-file &lt;output file&gt;] &lt;directory&gt; [directory2 [directory 3] ...]
+</pre>
+</blockquote>
+</div>
+<p>
+For example, to analyze all the Java class files in the
+<code>$JDEPEND_HOME/build</code> directory, use: 
+</p>
+<div>
+<blockquote>
+<pre>
+java jdepend.textui.JDepend $JDEPEND_HOME/build
+</pre>
+</blockquote>
+</div>
+<p>
+Alternatively, the text report can be written to file using:
+</p>
+<div>
+<blockquote>
+<pre>
+java jdepend.textui.JDepend -file report.txt $JDEPEND_HOME/build
+</pre>
+</blockquote>
+</div>
+<p>
+<a href="jdepend-text.out" target="_parent">Example output</a> from the
+textual UI shows the analysis of the sample application, an example
+electronic payment framework.  The relevant source for the sample
+application is distributed in
+<code>$JDEPEND_HOME/sample</code>.
+</p>
+<p>
+<b>XML UI</b>
+</p>
+<p>
+The XML user interface displays detailed metrics, dependencies, and
+cycles for each analyzed Java package in an XML format for easier
+integration with other tools.
+</p>
+<p>
+To run JDepend with the XML user interface, use the following syntax:
+</p>
+<div>
+<blockquote>
+<pre>
+java jdepend.xmlui.JDepend [-components &lt;components&gt;] [-file &lt;output file&gt;] &lt;directory&gt; [directory2 [directory 3] ...]
+</pre>
+</blockquote>
+</div>
+<p>
+For example, to analyze all the Java class files in the
+<code>$JDEPEND_HOME/build</code> directory, use: 
+</p>
+<div>
+<blockquote>
+<pre>
+java jdepend.xmlui.JDepend $JDEPEND_HOME/build
+</pre>
+</blockquote>
+</div>
+<p>
+Alternatively, the XML report can be written to file using:
+</p>
+<div>
+<blockquote>
+<pre>
+java jdepend.xmlui.JDepend -file report.xml $JDEPEND_HOME/build
+</pre>
+</blockquote>
+</div>
+<p>
+<a href="jdepend-xml.out" target="_parent">Example output</a> from the
+XML UI shows the analysis of the sample application, an example
+electronic payment framework.  The relevant source for the sample
+application is distributed in
+<code>$JDEPEND_HOME/sample</code>.
+</p>
+<p>
+You can then transform the XML format into a format of your liking.
+For example, David Bock contributed an XSL stylesheet that transforms
+the JDepend XML output into a <a
+href="http://www.research.att.com/sw/tools/graphviz/"
+target="_parent">Graphviz</a> dot file format.  David's stylesheet is
+distributed with JDepend in the <code>contrib/jdepend2dot.xsl</code>
+file.
+</p>
+<p>
+To create a sample Graphviz file, use:
+</p>
+<div>
+<blockquote>
+<pre>
+ant jdepend-to-graphviz
+</pre>
+</blockquote>
+</div>
+<p>
+This will create a <code>docs/jdepend-report.dot</code> file.  If
+you have Graphviz installed, you can then convert that .dot file 
+into a .png file using: 
+</p>
+<div>
+<blockquote>
+<pre>
+dot -Tpng -o jdepend.png jdepend.dot
+</pre>
+</blockquote>
+</div>
+
+<!--
+
+    Graphical UI Navigation
+
+-->
+<div class="header">
+<a name="graphical"></a> 
+Graphical UI Navigation	
+</div>
+<p>
+The graphical user interface displays the afferent and efferent
+couplings of each analyzed Java package, presented in the familiar
+Java Swing tree structure.
+</p>
+<p>
+Figure 1 shows the analysis of the sample application, an example
+electronic payment framework.  The relevant source for the sample
+application is distributed in <code>$JDEPEND_HOME/sample</code>.
+</p>
+<p>
+<a href="images/figure1b.jpg" target="_parent">
+  <img src="images/figure1a.jpg" alt="Figure 1"/>
+</a>
+<br/>
+Figure 1 (Click to view full-scale)
+</p>
+<p>
+The root of each tree displays a branch for each analyzed Java
+package, annotated with the following metrics:
+</p>
+<ul>
+  <li>
+    <b>CC</b> - Concrete Class Count
+  </li>
+  <li>
+    <b>AC</b> - Abstract Class (and Interface) Count
+  </li>
+  <li>
+    <b>Ca</b> - Afferent Couplings (Ca)
+  </li>
+  <li>
+    <b>Ce</b> - Efferent Couplings (Ce)
+  </li>
+  <li>
+    <b>A</b> - Abstractness (0-1)
+  </li>
+  <li>
+    <b>I</b> - Instability (0-1)
+  </li>
+  <li>
+    <b>D</b> - Distance from the Main Sequence (0-1)
+  </li>
+  <li>
+    <b>V</b> - Volatility (0-1)
+  </li>
+  <li>
+    <b>Cyclic</b> - If the package contains a dependency cycle
+  </li>
+</ul>
+<p>
+For organizational purposes, package metrics are only displayed at the
+root of each tree.  For convenience, selecting any node of the tree
+displays the currently selected package's metrics in the status bar.
+</p>
+<p>
+<b>Efferent Couplings</b>
+</p>
+<p>
+The top tree displays the efferent couplings of each analyzed Java
+package.  Branches of the tree can be opened up to explore packages
+that the currently selected package depends upon (Figure 2).
+</p>
+<p>
+<a href="images/figure2b.jpg" target="_parent">
+  <img src="images/figure2b.jpg" alt="Figure 2"/>
+</a>
+<br/>
+Figure 2 (Click to view full-scale)
+</p>
+<p>
+For the <code>epayment.adapters</code> package, we see that it depends
+upon 4 other packages:
+the <code>com.abc.epayment</code>, <code>com.xyz.epayment</code>,
+<code>epayment.framework</code>, and the <code>epayment.response</code> 
+packages.  Furthermore, it's completely concrete (A=0) and completely 
+instable (I=1).  This balance earns it a spot squarely on the main 
+sequence (D=0).  We can conclude from these metrics that dependencies on
+this package are undesirable because it's both dependent and irresponsible.
+It's sensitive to modifications made to any of it's efferent couplings and
+not accountable to any other package.  Therefore, it's important that other 
+packages in the system not become dependent on this package, as they'll in turn 
+become fragile by any modifications made to the details of the 
+<code>epayment.adapters</code> package and its dependencies.  As a concrete
+package, it's not capable of being extended without being modified.
+</p>
+<p>
+For the <code>epayment.framework</code> package, we see that it does
+not depend on any other packages in the application (Ce=0).  However,
+it is responsible to every other package (Ca=5) while exhibiting a
+high degree of abstractness (A=0.83) and stability (I=0).  While not
+completely balanced, this package is very near the main sequence
+(D=0.17).  We can conclude from these metrics that dependencies on
+this package are desirable because it's both independent and
+responsible.  It's abstractness also indicates that it's capable of
+being extended to accommodate new implementations without being
+modified.
+</p>
+<p>
+Packages that were imported, but not analyzed, are not shown in the
+efferent dependency tree.  Third-party software packages that weren't
+analyzed, for example, will not be shown in the efferent tree, as
+their efferent dependencies are not available.
+</p>
+<p>
+<b>Afferent Couplings</b>
+</p>
+<p>
+The bottom tree displays the afferent couplings of each analyzed Java
+package.  Branches of the tree can be opened up to explore packages
+that use the currently selected package (Figure 3).
+</p>
+<p>
+<a href="images/figure3b.jpg" target="_parent">
+  <img src="images/figure3b.jpg" alt="Figure 3"/>
+</a>
+<br/>
+Figure 3 (Click to view full-scale)
+</p>
+<p>
+For the <code>epayment.adapters</code> package, we see that it is not
+used by any other package in the application.  This confirms our
+observations of the efferent dependency tree.
+</p>
+<p>
+For the <code>epayment.framework</code> package, we see that it's used
+by all the other user-defined packages in the framework.  However, it
+does not have any efferent couplings (Ce=0) and exhibits a high degree
+of abstractness (A=0.83) and stability (I=0).  This is a requirement
+of a software framework - we want it to be heavily used, thereby
+making it very responsible to its clients, yet be highly abstract to
+allow extensibility without modification.
+</p>
+<p>
+For the <code>com.abc.epayment</code> package, a third-party software
+package, we see that it's used by the <code>epayment.adapters</code>
+package.  There are no metrics displayed for this package however, as
+it's a third-party package that was not analyzed by JDepend.  It was
+imported by a user-defined package (<code>epayment.adapters</code>),
+so it is shown in the afferent dependency tree.
+</p>
+<p>
+Using the afferent dependency tree, it's easy to identify which
+user-defined packages are dependent upon third-party software
+packages.
+</p>
+
+<!--
+
+    Interpreting Dependency Cycles
+
+-->
+<div class="header">
+<a name="cycles"></a> 
+Interpreting Dependency Cycles	
+</div>
+<p>
+Package dependency cycles are best observed using the textual or XML
+user interface.  In general, all packages dependencies that intersect
+a dependency cycle are reported.  This includes packages directly
+participating in a cycle and packages that depend on packages directly
+participating in a cycle.
+</p>
+<p>
+The intent is to identify sets of packages that must be reused and
+released together.  To break reported cycles, focus on those packages
+directly participating in a cycle.
+</p>
+<p>
+Here's an example of a two-package cycle, as reported by the textual UI:
+</p>
+<div>
+<blockquote>
+<pre>
+    com.xyz.ejb
+       |
+       |   com.xyz.servlet
+       |-> com.xyz.ejb
+</pre>
+</blockquote>
+</div>
+<p>
+This indicates that the <code>com.xyz.ejb</code> package depends on
+the
+<code>com.xyz.servlet</code> package, which in turn depends on the
+<code>com.xyz.ejb</code> package.  These two package must be released and
+reused together.
+</p>
+<p>
+Here's an example of a package that depends on the two-package cycle
+described above, as reported by the textual UI:
+</p>
+<div>
+<blockquote>
+<pre>
+    com.xyz.client
+       |
+       |-> com.xyz.ejb
+       |   com.xyz.servlet
+       |-> com.xyz.ejb
+</pre>
+</blockquote>
+</div>
+<p>
+This indicates that the <code>com.xyz.client</code> package depends on
+the <code>com.xyz.ejb</code> package, which in turn forms a cyclic
+dependency with the <code>com.xyz.servlet</code> package.
+The <code>com.xyz.client</code> package itself isn't part of the
+cycle, but since it depends on a package in the cycle, it can't be
+reused/released without it.
+</p>
+
+<!--
+
+    Customizing	
+
+-->
+<div class="header">
+<a name="customize"></a> 
+Customizing JDepend
+</div>
+<p>
+JDepend can be customized by using command-line options and/or by
+creating a <code>jdepend.properties</code> file in the user's home
+directory or any directory in the classpath.
+</p>
+<p>
+<b>Components</b>
+</p>
+<p>
+JDepend can calculate metrics and dependencies for components:
+packages that contain one or more sub-packages.
+</p>
+<p>
+For example, given the following package hierarchy:
+</p>
+<div>
+<blockquote>
+<pre>
+com.xyz.package_a.subpackage_a
+com.xyz.package_a.subpackage_b
+com.xyz.package_a.subpackage_c
+com.xyz.package_b.subpackage_a
+com.xyz.package_b.subpackage_b
+</pre>
+</blockquote>
+</div>
+<p>
+Assume you want to collect metrics and dependencies for the
+<code>com.xyz.package_a</code> and <code>com.xyz.package_b</code>
+packages, but not for any of their contained packages.  For example,
+if there is a dependency from <code>com.xyz.package_a.subpackage_a</code>
+to <code>com.xyz.package_b.subpackage_b</code>, then you want it
+to be reported as a dependency from <code>com.xyz.package_a</code>
+to <code>com.xyz.package_b.subpackage_b</code>.
+</p>
+<p>
+To do that, use the <code>-components</code> command-line argument:
+</p>
+<div>
+<blockquote>
+<pre>
+java jdepend.textui.JDepend -components com.xyx.package_a,com.xyz.package_b /path/to/classes
+</pre>
+</blockquote>
+</div>
+<p>
+Note that if component packages are named using the
+<code>-components</code> option, then no other packages
+are reported.
+</p>
+<p>
+<b>Package Filters</b>
+</p>
+<p>
+JDepend will ignore all package names specified as values to the
+<code>ignore</code> property name prefix in the 
+<code>jdepend.properties</code> file. By default, no packages are filtered. 
+</p>
+<p>
+The following example <code>jdepend.properties</code> file will ignore
+all package names prefixed by <code>java</code>, <code>javax</code>,
+<code>sun</code>, <code>com.sun</code>, and the package 
+<code>com.xyz.tests</code>:
+</p>
+<div>
+<blockquote>
+<pre>
+ignore.java=java.*,javax.*
+ignore.sun=sun.*,com.sun.*
+ignore.tests=com.xyz.tests
+</pre>
+</blockquote>
+</div>
+<p>
+Packages can also be filtered programmatically by creating a
+<code>PackageFilter</code> instance defining the filters and
+then passing it to the <code>JDepend</code> constructor.
+</p>
+<p>
+The following example will ignore all package names prefixed by
+<code>java</code> and <code>javax</code>, in addition to any
+package filters specified in an existing 
+<code>jdepend.properties</code> file:
+</p>
+<div>
+<blockquote>
+<pre>
+PackageFilter filter = new PackageFilter();
+filter.addPackage("java.*");
+filter.addPackage("javax.*");
+JDepend jdepend = new JDepend(filter);
+</pre>
+</blockquote>
+</div>
+<p>
+The following example will ignore only the package names prefixed
+by <code>java</code> and <code>javax</code>, regardless of any package
+filters specified in an existing
+<code>jdepend.properties</code> file:
+</p>
+<div>
+<blockquote>
+<pre>
+Collection filters = new ArrayList();
+filters.add("java.*");
+filters.add("javax.*");
+PackageFilter filter = new PackageFilter(filters);
+JDepend jdepend = new JDepend(filter);
+</pre>
+</blockquote>
+</div>
+<p>
+<b>Volatility</b>
+</p>
+<p>
+Packages that are not expected to change can be specifically
+configured with a volatility (V) value in the
+<code>jdepend.properties</code> file. 
+V can either be 0 or 1.  If V=0, meaning the package is not at 
+all subject to change, then the package will automatically fall 
+directly on the main sequence (D=0).  If V=1, meaning that the
+package is subject to change, then the distance from the main
+sequence is not affected. By default, all packages are 
+configured with V=1. 
+</p>
+<p>
+For example, a package like <code>java.lang</code> is generally not
+volatile. That is, for all practical purposes this package is
+maximally stable.  Creating dependencies on it is not cause for
+concern.  Thus, if you include this package in analysis, it's best to
+set its V=0.
+</p>
+<p>
+The following example <code>jdepend.properties</code> file will set
+the <code>java.lang</code> package's volatility to 0:
+</p>
+<div>
+<blockquote>
+<pre>
+java.lang=0
+</pre>
+</blockquote>
+</div>
+<p>
+Volatility can also be programmatically set on individual packages
+prior to analysis by creating a package instance, setting its
+volatility, then registering it with the
+<code>JDepend</code> instance before analysis.
+</p>
+<p>
+The following example sets V=0 for the <code>java.lang</code> package:
+</p>
+<div>
+<blockquote>
+<pre>
+JavaPackage javaLang = new JavaPackage("java.lang");
+javaLang.setVolatility(0);
+// or
+JavaPackage javaLang = new JavaPackage("java.lang", 0);
+        
+JDepend jdepend = new JDepend();
+jdepend.addDirectory("/path/to/classes");
+jdepend.addPackage(javaLang);
+jdepend.analyze();
+</pre>
+</blockquote>
+</div>
+<p>
+Wildcards are not supported for configuring sets of packages with a
+volatility value.
+</p>
+<p>
+<b>Inner Classes</b>
+</p>
+<p>
+By default, inner classes are analyzed.
+</p>
+<p>
+The following example <code>jdepend.properties</code> file will
+disable analyzing inner classes:
+</p>
+<div>
+<blockquote>
+<pre>
+analyzeInnerClasses=false
+</pre>
+</blockquote>
+</div>
+
+<!--
+
+    JUnit	
+
+-->
+<div class="header">
+<a name="junit"></a> 
+Using JDepend With JUnit	
+</div>
+<p>
+In the spirit of automation, metrics can be automatically collected by
+JDepend so that they never go stale or require visual inspection.  As
+the software evolves through refactorings, the design quality test
+cases can be run as a sanity check to ensure that the design has not
+formed too many undesirable dependencies.
+</p>
+<p>
+Tolerances for any collected metrics (e.g., the distance from the main
+sequence (D)) can be codified in a
+<a href="http://www.junit.org" target="_parent">JUnit</a> test case
+that automatically checks the metrics for conformance to a desired
+result and provides immediate visual feedback.  Tests can also be
+written to fail if any package dependency other than those declared in
+a dependency constraint are detected. The existence of package
+dependency cycles can also be automatically checked by a JUnit test.
+</p>
+<p>
+<b>Dependency Constraint Tests</b>
+</p>
+<p>
+The following example JUnit test case tests whether a package
+dependency constraint is met.  This test fails if any package
+dependency other than those declared in the dependency constraint are
+detected:
+</p>
+<div class="code-header">
+JUnit Package Dependency Constraint Test
+</div>
+<div class="code">
+<pre>
+import java.io.*;
+import java.util.*;
+import junit.framework.*;
+
+public class ConstraintTest extends TestCase {
+
+    private JDepend jdepend;
+
+    public ConstraintTest(String name) {
+        super(name);
+    }
+
+    protected void setUp() throws IOException {
+			
+        jdepend = new JDepend();
+		
+        jdepend.addDirectory("/path/to/project/util/classes");
+        jdepend.addDirectory("/path/to/project/ejb/classes");
+        jdepend.addDirectory("/path/to/project/web/classes");
+    }
+	
+    /**
+     * Tests that the package dependency constraint
+     * is met for the analyzed packages.
+     */
+    public void testMatch() {
+        
+        DependencyConstraint constraint = new DependencyConstraint();
+
+        JavaPackage ejb = constraint.addPackage("com.xyz.ejb");
+        JavaPackage web = constraint.addPackage("com.xyz.web");
+        JavaPackage util = constraint.addPackage("com.xyz.util");
+		
+        ejb.dependsUpon(util);
+        web.dependsUpon(util);
+		
+        jdepend.analyze();		
+
+        assertEquals("Dependency mismatch",
+          	     true, jdepend.dependencyMatch(constraint));
+    }
+    
+    public static void main(String[] args) {
+        junit.textui.TestRunner.run(ConstraintTest.class);
+    }
+}
+</pre>
+</div>
+<p>
+<b>Dependency Cycle Tests</b>
+</p>
+<p>
+The following example JUnit test case tests for the existence of
+package dependency cycles:
+</p>
+<div class="code-header">
+JUnit Package Dependency Cycle Test
+</div>
+<div class="code">
+<pre>
+import java.io.*;
+import java.util.*;
+import junit.framework.*;
+
+public class CycleTest extends TestCase {
+
+    private JDepend jdepend;
+
+    public CycleTest(String name) {
+        super(name);
+    }
+
+    protected void setUp() throws IOException {
+			
+        jdepend = new JDepend();
+		
+        jdepend.addDirectory("/path/to/project/ejb/classes");
+        jdepend.addDirectory("/path/to/project/web/classes");
+        jdepend.addDirectory("/path/to/project/thirdpartyjars");
+    }
+	
+    /**
+     * Tests that a single package does not contain
+     * any package dependency cycles.
+     */
+    public void testOnePackage() {
+    
+        jdepend.analyze();
+        
+        JavaPackage p = jdepend.getPackage("com.xyz.ejb");
+        
+        assertEquals("Cycle exists: " + p.getName(), 
+        	     false, p.containsCycle());
+    }
+    
+    /**
+     * Tests that a package dependency cycle does not 
+     * exist for any of the analyzed packages.
+     */
+    public void testAllPackages() {
+    
+        Collection packages = jdepend.analyze();
+        
+        assertEquals("Cycles exist", 
+                     false, jdepend.containsCycles());
+    }
+    
+    public static void main(String[] args) {
+        junit.textui.TestRunner.run(CycleTest.class);
+    }
+}
+</pre>
+</div>
+<p>
+<b>Main Sequence Distance Tests</b>
+</p>
+<p>
+The following example JUnit test case tests the conformance of
+packages to a distance from the main sequence (D) within
+project-defined tolerances:
+</p>
+<div class="code-header">
+JUnit Main Sequence Distance Test
+</div>
+<div class="code">
+<pre>
+import java.io.*;
+import java.util.*;
+import junit.framework.*;
+
+public class DistanceTest extends TestCase {
+
+    private JDepend jdepend;
+
+    public DistanceTest(String name) {
+        super(name);
+    }
+
+    protected void setUp() throws IOException {
+			
+        jdepend = new JDepend();
+		
+        jdepend.addDirectory("/path/to/project/ejb/classes");
+        jdepend.addDirectory("/path/to/project/web/classes");
+        jdepend.addDirectory("/path/to/project/thirdpartyjars");
+    }
+	
+    /**
+     * Tests the conformance of a single package to a 
+     * distance from the main sequence (D) within a 
+     * tolerance.
+     */
+    public void testOnePackage() {
+    
+        double ideal = 0.0;
+        double tolerance = 0.125;  // project-dependent
+        
+        jdepend.analyze();
+        
+        JavaPackage p = jdepend.getPackage("com.xyz.ejb");
+
+        assertEquals("Distance exceeded: " + p.getName(), 
+        	     ideal, p.distance(), tolerance);
+    }
+    
+    /**
+     * Tests the conformance of all analyzed packages to a 
+     * distance from the main sequence (D) within a tolerance.
+     */
+    public void testAllPackages() {
+    
+        double ideal = 0.0;
+        double tolerance = 0.5;  // project-dependent
+        
+        Collection packages = jdepend.analyze();
+        
+        Iterator iter = packages.iterator();
+        while (iter.hasNext()) {
+            JavaPackage p = (JavaPackage)iter.next();
+            assertEquals("Distance exceeded: " + p.getName(), 
+            	         ideal, p.distance(), tolerance);
+        }
+    }
+    
+    public static void main(String[] args) {
+        junit.textui.TestRunner.run(DistanceTest.class);
+    }
+}
+</pre>
+</div>
+
+<!--
+
+    FitNesse
+
+-->
+<div class="header">
+<a name="fitnesse"></a> 
+Using JDepend With FitNesse	
+</div>
+<p>
+Writing JUnit tests to detect unwanted dependencies and package cycles
+can be awkward.  Bob Martin contributed the <a
+href="http://www.butunclebob.com/ArticleS.UncleBob.JdependFixture"
+target="_parent">Module Dependencies FitNesse fixture</a> that allows
+you to represent your package dependencies as a table.  The fixture
+uses the JDepend API to ensure that only the dependencies declared in
+the table actually exist in your software.
+</p>
+<p>
+For example, the following table describes a system with three
+components: <code>ejb</code>,
+<code>web</code>, and <code>util</code>.  The <code>ejb</code>
+and <code>web</code> components depend upon the <code>util</code>
+component.
+</p>
+<center>
+<table border="1" cellspacing="0" cellpadding="5">
+  <tr>
+    <td colspan="4">Module Dependencies</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>ejb</td>
+    <td>web</td>
+    <td>util</td>
+  </tr>
+  <tr>
+    <td>ejb</td>
+    <td>&nbsp;</td>
+    <td style="background-color: #FFAAAA">&nbsp;</td>
+    <td style="background-color: #AAFFAA" align="center">X</td>
+  </tr>
+  <tr>
+    <td>web</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td style="background-color: #AAFFAA" align="center">X</td>
+  </tr>
+  <tr>
+    <td>util</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+</center>
+<p>
+When this table is executed as a <a href="http://fitnesse.org"
+target="_parent">FitNesse</a> fixture, and if the <code>ejb</code>
+and <code>web</code> components actually did depend upon
+the <code>util</code> component, then the cells containing an X would
+be colored green.  Any other unexpected component dependencies, such
+as the <code>ejb</code> component depending on the <code>web</code>
+component, would result in the corresponding cell turning red.  
+</p>
+<p>
+Cycles result in all corresponding cells within the cycle to turn red
+and be marked with the word 'cycle'.  The fixture sports other handy
+features, as well.  Refer to <a
+href="http://www.butunclebob.com/ArticleS.UncleBob.JdependFixture"
+target="_parent">Bob's blog</a> for detailed usage information.  
+</p>
+<p>
+The <a
+href="http://www.butunclebob.com/ArticleS.UncleBob.JdependFixture"
+target="_parent">Module Dependencies fixture</a> is distributed with
+JDepend in the <code>contrib/fitnesse</code> directory.
+</p>
+<!--
+
+    Ant	
+
+-->
+<div class="header">
+<a name="ant"></a> 
+Using JDepend With Ant
+</div>
+<p>
+<a href="http://jakarta.apache.org/ant" target="_parent">Ant</a>
+includes a task for automatically running JDepend.
+</p>
+<p>
+Java class file directories to analyze are defined by the nested
+<code>&lt;classespath&gt;</code> element.
+</p>
+<p>
+<b>Text Reports</b>
+</p>
+<p>
+The following example Ant task runs JDepend on the <code>build</code>
+directory and writes the text report to
+the <code>docs/jdepend-report.txt</code> file:
+</p>
+<div class="code-header">
+JDepend Ant Task
+</div>
+<div class="code">
+<pre>
+&lt;target name="jdepend"&gt;
+
+  &lt;jdepend outputfile="docs/jdepend-report.txt"&gt;
+      &lt;exclude name="java.*"/&gt;
+      &lt;exclude name="javax.*"/&gt;
+      &lt;classespath&gt;
+        &lt;pathelement location="build" /&gt;
+      &lt;/classespath&gt;
+      &lt;classpath location="build" /&gt;
+  &lt;/jdepend&gt;
+
+&lt;/target&gt;
+</pre>
+</div>
+<p>
+<b>XML Reports</b>
+</p>
+<p>
+Ant 1.5 and above includes a <code>format</code> attribute for the
+JDepend Ant task and a default XSL stylesheet to transform a JDepend
+XML report into an HTML report.
+</p>
+<p>
+The following example Ant task runs JDepend on the <code>build</code>
+directory, writes the XML report to
+the <code>docs/jdepend-report.xml</code> file, and generates
+the <code>jdepend.html</code> file using the <code>jdepend.xsl</code>
+stylesheet distributed with Ant 1.5 (and above) in
+the <code>etc</code> directory:
+</p>
+<div class="code-header">
+JDepend Ant Task
+</div>
+<div class="code">
+<pre>
+&lt;target name="jdepend"&gt;
+
+  &lt;jdepend format="xml" outputfile="docs/jdepend-report.xml"&gt;
+      &lt;exclude name="java.*"/&gt;
+      &lt;exclude name="javax.*"/&gt;
+      &lt;classespath&gt;
+        &lt;pathelement location="classes" /&gt;
+      &lt;/classespath&gt;
+      &lt;classpath location="classes" /&gt;
+  &lt;/jdepend&gt;
+
+  &lt;style basedir="docs" destdir="docs"
+         includes="jdepend-report.xml" 
+         style="${ant.home}/etc/jdepend.xsl" /&gt;
+
+&lt;/target&gt;
+</pre>
+</div>
+
+<!--
+
+    Limitations	
+
+-->
+<div class="header">
+<a name="limitations"></a> 
+Limitations
+</div>
+<p>
+JDepend has the following known limitations:
+</p>
+<ul>
+  <li>
+    <p>
+      Cyclic dependency detection may not report all cycles reachable
+      from a given package.  The detection algorithm stops once any
+      given cycle is detected. If the same cycle is reachable from
+      another package, the cycle may be reported more than once. In
+      general, you want to aggressively remove any cycles.
+    </p>
+  </li>
+  <li>
+    <p>
+      JDepend does not collect source code complexity metrics.  If you
+      are interested in collecting these types of metrics, the
+      JavaNCSS tool referenced in the <a
+      href="#resources">Resources</a> section is recommended.
+    </p>
+  </li>
+  <li>
+    <p>
+      The design quality metrics generated by JDepend are imperfect.
+      They are intended to be used to pragmatically and responsibly
+      measure design quality in a relative sense, rather than as a
+      yard stick for all designs.
+    </p>
+  </li>
+  <li>
+    <p>
+      Java interfaces are treated as equals with Java abstract
+      classes.  In other words, although there are practical design
+      advantages to using interfaces in concert with abstract classes,
+      JDepend treats them uniformly in the calculation of
+      abstractness.  Likewise, abstract classes that implement
+      interfaces are counted as abstract classes, in addition to their
+      interface, regardless of whether they are always referenced
+      outside the package as their interface type.
+    </p>
+  </li>
+  <li>
+    <p>
+      JDepend does not currently support the calculation of Ca and Ce
+      in terms of the number of classes inside a package that have
+      afferent or efferent couplings to classes inside other packages.
+      Rather, JDepend calculates Ca and Ce strictly in terms of the
+      number of packages with which a package has afferent or efferent
+      couplings, based on the collective analysis of all imported
+      packages.  This deviates slightly from the original Ca and Ce
+      definitions proposed by Robert Martin.
+    </p>
+  </li>
+</ul>
+
+<!--
+
+    Support	
+
+-->
+<div class="header">
+<a name="support"></a> 
+Support	
+</div>
+<p>
+If you have any questions, comments, enhancement requests, success
+stories, or bug reports regarding JDepend, or if you want to be
+notified when new versions of JDepend are available, please email
+<a href="mailto:mike@clarkware.com">mike@clarkware.com</a>.
+Your information will be kept private.
+</p>
+<p>
+A <a href="http://groups.yahoo.com/group/jdepend/"
+target="_parent">mailing list</a> is also available to discuss JDepend
+or to be notified when new versions of JDepend are available.
+</p>
+
+<!--
+
+    Donate
+
+-->
+<div class="header">
+Donate
+<a name="donate"></a> 
+</div>
+<p>
+Please support the ongoing development of JDepend by purchasing a copy
+of the book <a
+href="http://www.pragmaticprogrammer.com/sk/auto/">Pragmatic Project
+Automation</a>.
+</p>
+<p>
+Thanks in advance!
+</p>
+
+<!--
+
+    Design Reviews
+
+-->
+<div class="header">
+<a name="reviews"></a> 
+Design Reviews	
+</div>
+<p>
+Move forward with confidence by getting a timely and valuable second
+opinion on your design and/or code.  You get an in-depth evaluation
+that includes a presentation of the key recommendations and a full
+written report of observations and detailed recommendations.
+</p>
+<p>
+<a href="mailto:mike@clarkware.com">Contact me</a> for more details.
+</p>
+
+<!--
+
+    License
+
+-->
+<div class="header">
+<a name="license"></a> 
+License
+</div>
+<p>
+JDepend is licensed under the
+<a href="http://www.clarkware.com/software/license.txt">BSD License</a>.
+</p>
+
+<!--
+
+    Credits
+
+-->
+<div class="header">
+<a name="credits"></a> 
+Acknowledgments
+</div>
+<p>
+Many thanks to Robert Martin for originally describing these design
+quality metrics and writing the C++ dependency analyzer from which
+JDepend was adapted.  I am especially grateful that he allowed me to
+stand on his shoulders in adapting his work for the Java community.
+</p>
+
+<!--
+
+    Resources
+
+-->
+<div class="header">
+<a name="resources"></a> 
+Resources
+</div>
+<ul>
+  <li>
+    <p>
+      <a href="http://www.amazon.com/exec/obidos/ASIN/0135974445/clarkware-20"
+	 target="_parent">
+	"Agile Software Development: Principles, Patterns, 
+	and Practices"</a>, by Martin, R. (Prentice Hall, 2002)
+    </p>
+  </li>
+  <li>
+    <p>
+      <a href="http://www.amazon.com/exec/obidos/ASIN/0132038374/clarkware-20" 
+	 target="_parent">
+	"Designing Object-Oriented C++ Applications Using The
+	Booch Method"</a>, by Martin, R. (Prentice Hall, 1995)
+    </p>
+  </li>
+  <li>
+    <p>
+      <a href="http://www.objectmentor.com/publications/oodmetrc.pdf" 
+	 target="_parent">"Object Oriented Design Quality Metrics: 
+	An Analysis of Dependencies"</a>, by Martin, R.
+    </p>
+  </li>
+  <li>
+    <p>
+      <a href="http://www.kclee.com/clemens/java/javancss" 
+	 target="_parent">JavaNCSS</a> - Clemens Lahme's JavaNCSS
+      measures Non-Commenting Source Statements (NCSS),
+      the Cyclomatic Complexity Number (McCabe metric), and
+      other quantitative source-level metrics.
+    </p>
+  </li>
+</ul>
+
+<div id="copyright">
+Copyright &copy; 1999-2005 Clarkware Consulting, Inc.
+<br/>
+All Rights Reserved
+</div>
+
+</body>
+</html>

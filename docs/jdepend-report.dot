@@ -1,0 +1,179 @@
+
+digraph g {
+        graph [
+	    rankdir = "LR"
+	];
+	node [
+	    fontsize = "12"
+	    fontname = "Courier"
+	    shape = "ellipse"
+	];
+	edge[];
+	"java.awt" [
+        label="java.awt | Total Classes: "
+	shape="record"
+	color=".99 0.0 .9"
+	style=filled
+    ];
+    "java.awt.event" [
+        label="java.awt.event | Total Classes: "
+	shape="record"
+	color=".99 0.0 .9"
+	style=filled
+    ];
+    "java.io" [
+        label="java.io | Total Classes: "
+	shape="record"
+	color=".99 0.0 .9"
+	style=filled
+    ];
+    "java.lang" [
+        label="java.lang | Total Classes: "
+	shape="record"
+	color=".99 0.0 .9"
+	style=filled
+    ];
+    "java.lang.reflect" [
+        label="java.lang.reflect | Total Classes: "
+	shape="record"
+	color=".99 0.0 .9"
+	style=filled
+    ];
+    "java.math" [
+        label="java.math | Total Classes: "
+	shape="record"
+	color=".99 0.0 .9"
+	style=filled
+    ];
+    "java.net" [
+        label="java.net | Total Classes: "
+	shape="record"
+	color=".99 0.0 .9"
+	style=filled
+    ];
+    "java.rmi" [
+        label="java.rmi | Total Classes: "
+	shape="record"
+	color=".99 0.0 .9"
+	style=filled
+    ];
+    "java.sql" [
+        label="java.sql | Total Classes: "
+	shape="record"
+	color=".99 0.0 .9"
+	style=filled
+    ];
+    "java.text" [
+        label="java.text | Total Classes: "
+	shape="record"
+	color=".99 0.0 .9"
+	style=filled
+    ];
+    "java.util" [
+        label="java.util | Total Classes: "
+	shape="record"
+	color=".99 0.0 .9"
+	style=filled
+    ];
+    "java.util.jar" [
+        label="java.util.jar | Total Classes: "
+	shape="record"
+	color=".99 0.0 .9"
+	style=filled
+    ];
+    "java.util.zip" [
+        label="java.util.zip | Total Classes: "
+	shape="record"
+	color=".99 0.0 .9"
+	style=filled
+    ];
+    "javax.swing" [
+        label="javax.swing | Total Classes: "
+	shape="record"
+	color=".99 0.0 .9"
+	style=filled
+    ];
+    "javax.swing.event" [
+        label="javax.swing.event | Total Classes: "
+	shape="record"
+	color=".99 0.0 .9"
+	style=filled
+    ];
+    "javax.swing.tree" [
+        label="javax.swing.tree | Total Classes: "
+	shape="record"
+	color=".99 0.0 .9"
+	style=filled
+    ];
+    "jdepend.framework" [
+        label="jdepend.framework | Total Classes: 35"
+	shape="record"
+	color=".99 0.07 .9"
+	style=filled
+    ];
+    "jdepend.framework" -> "java.io"
+    "jdepend.framework" -> "java.lang"
+    "jdepend.framework" -> "java.lang.reflect"
+    "jdepend.framework" -> "java.math"
+    "jdepend.framework" -> "java.net"
+    "jdepend.framework" -> "java.rmi"
+    "jdepend.framework" -> "java.sql"
+    "jdepend.framework" -> "java.text"
+    "jdepend.framework" -> "java.util"
+    "jdepend.framework" -> "java.util.jar"
+    "jdepend.framework" -> "java.util.zip"
+    "jdepend.framework" -> "junit.framework"
+    "jdepend.framework" -> "junit.textui"
+    "jdepend.swingui" [
+        label="jdepend.swingui | Total Classes: 19"
+	shape="record"
+	color=".99 0.05 .9"
+	style=filled
+    ];
+    "jdepend.swingui" -> "java.awt"
+    "jdepend.swingui" -> "java.awt.event"
+    "jdepend.swingui" -> "java.io"
+    "jdepend.swingui" -> "java.lang"
+    "jdepend.swingui" -> "java.text"
+    "jdepend.swingui" -> "java.util"
+    "jdepend.swingui" -> "javax.swing"
+    "jdepend.swingui" -> "javax.swing.event"
+    "jdepend.swingui" -> "javax.swing.tree"
+    "jdepend.swingui" -> "jdepend.framework"
+    "jdepend.textui" [
+        label="jdepend.textui | Total Classes: 1"
+	shape="record"
+	color=".99 0.17 .9"
+	style=filled
+    ];
+    "jdepend.textui" -> "java.io"
+    "jdepend.textui" -> "java.lang"
+    "jdepend.textui" -> "java.text"
+    "jdepend.textui" -> "java.util"
+    "jdepend.textui" -> "jdepend.framework"
+    "jdepend.xmlui" [
+        label="jdepend.xmlui | Total Classes: 1"
+	shape="record"
+	color=".99 0 .9"
+	style=filled
+    ];
+    "jdepend.xmlui" -> "java.io"
+    "jdepend.xmlui" -> "java.lang"
+    "jdepend.xmlui" -> "java.text"
+    "jdepend.xmlui" -> "java.util"
+    "jdepend.xmlui" -> "jdepend.framework"
+    "jdepend.xmlui" -> "jdepend.textui"
+    "junit.framework" [
+        label="junit.framework | Total Classes: "
+	shape="record"
+	color=".99 0.0 .9"
+	style=filled
+    ];
+    "junit.textui" [
+        label="junit.textui | Total Classes: "
+	shape="record"
+	color=".99 0.0 .9"
+	style=filled
+    ];
+    
+}

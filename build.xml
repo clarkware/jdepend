@@ -1,0 +1,250 @@
+<?xml version="1.0"?>
+
+<project name="jdepend" default="test">
+
+  <description>
+    Builds and tests JDepend - the Java package dependency analyzer.
+  </description>
+
+  <property file="build.properties"/>
+  <property environment="env"/>
+
+  <property name="Name" value="${ant.project.name}"/>
+  <property name="version" value="2.9.1"/>
+
+  <property name="src.dir" location="src"/>
+  <property name="test.dir" location="test"/>
+  <property name="build.dir" location="build"/>
+  <property name="docs.dir" location="docs"/>
+  <property name="dist.dir" location="dist"/>
+  <property name="run.dir" location="${build.dir}"/>
+
+  <property name="javadoc.dir" location="${build.dir}/docs/api"/>
+  <property name="dist.name" value="${Name}-${version}"/>
+  <property name="package.dir" location="${dist.dir}/${dist.name}"/>
+
+  <property name="build.debug" value="true"/>
+
+  <path id="project.classpath">
+    <pathelement location="${build.dir}"/>
+  </path>
+
+  <target name="prepare">
+    <tstamp />
+    <mkdir dir="${build.dir}"/>
+    <available property="junit.available"
+               classname="junit.framework.TestCase"/>
+  </target>
+
+  <target name="compile" depends="prepare"
+    description="Compiles the source code">
+    <javac srcdir="${src.dir}"
+           destdir="${build.dir}"
+           debug="${build.debug}">
+      <classpath refid="project.classpath"/>
+    </javac>
+  </target>
+
+  <target name="compile-sample" depends="prepare"
+    description="Compiles the sample code">
+    <javac srcdir="sample"
+           destdir="${build.dir}"
+           debug="${build.debug}">
+      <classpath refid="project.classpath"/>
+    </javac>
+  </target>
+
+  <target name="compile-tests" depends="compile"
+          if="junit.available"
+    description="Compiles the test code">
+    <javac srcdir="${test.dir}"
+           destdir="${build.dir}"
+           debug="${build.debug}">
+      <classpath refid="project.classpath"/>
+    </javac>
+  </target>
+
+  <target name="test" depends="compile-tests"
+          if="junit.available"
+          description="Runs all the tests">
+    <junit haltonfailure="yes" fork="yes">
+      <test name="jdepend.framework.AllTests"/>
+      <formatter type="plain" usefile="false"/>
+      <sysproperty key="jdepend.home" value="${basedir}"/>
+      <classpath refid="project.classpath"/>
+    </junit>
+  </target>
+
+  <target name="run-jdepend" depends="compile"
+          description="Runs JDepend on itself">
+    <java classname="jdepend.textui.JDepend" fork="yes">
+      <classpath refid="project.classpath"/>
+      <arg file="${run.dir}"/>
+    </java>
+  </target>
+
+  <target name="run-jdepend-components" depends="compile"
+          description="Runs JDepend on itself">
+    <java classname="jdepend.textui.JDepend" fork="yes">
+      <classpath refid="project.classpath"/>
+      <arg value="-components"/>
+      <arg value="jdepend,java,junit"/>
+      <arg value="${run.dir}"/>
+    </java>
+  </target>
+
+  <target name="validate-jdepend-task">
+
+    <fail message="ANT_HOME must be set" unless="env.ANT_HOME"/>
+
+    <available property="jdependtask.available"
+               classname="org.apache.tools.ant.taskdefs.optional.jdepend.JDependTask"/>
+
+    <fail message="Missing jdepend.jar in system CLASSPATH"
+          unless="jdependtask.available"/>
+
+  </target>
+
+  <target name="run-jdepend-task"
+          if="jdependtask.available"
+          depends="validate-jdepend-task, compile"
+          description="Runs the JDepend Ant task">
+            
+    <jdepend fork="yes" 
+             outputfile="${docs.dir}/jdepend-report.txt">
+      <exclude name="java.*"/>
+      <exclude name="javax.*"/>
+      <classespath>
+        <pathelement location="${run.dir}"/>
+      </classespath>
+      <classpath refid="project.classpath"/>
+    </jdepend>
+
+  </target>
+
+  <target name="run-jdepend-task-html"
+          if="jdependtask.available"
+          depends="validate-jdepend-task, compile"
+          description="Runs the JDepend Ant task producing HTML">
+
+    <jdepend fork="yes"
+             format="xml"
+             outputfile="${docs.dir}/jdepend-report.xml">
+      <classespath>
+        <pathelement location="${run.dir}"/>
+      </classespath>
+      <classpath refid="project.classpath"/>
+    </jdepend>
+
+    <style basedir="${docs.dir}"
+           destdir="${docs.dir}"
+           includes="jdepend-report.xml"
+           style="${ant.home}/etc/jdepend.xsl"/>
+
+  </target>
+
+  <target name="jdepend-to-graphviz"
+          depends="compile"
+     description="Runs JDepend and converts XML output into Graphviz">
+
+    <java classname="jdepend.xmlui.JDepend" fork="yes">
+      <classpath refid="project.classpath"/>
+      <arg value="-file"/>
+      <arg value="${docs.dir}/jdepend-report.xml"/>
+      <arg value="${run.dir}"/>
+    </java>
+
+    <style basedir="${docs.dir}"
+           destdir="${docs.dir}"
+           includes="jdepend-report.xml"
+           extension=".dot"
+           style="contrib/jdepend2dot.xsl"/>
+
+  </target>
+
+  <target name="javadoc" depends="compile"
+          description="Generates JavaDoc">
+    
+    <mkdir dir="${javadoc.dir}"/>
+    
+    <javadoc packagenames="*"
+             sourcepath="${src.dir}"
+             destdir="${javadoc.dir}"
+             author="true"
+             version="true"
+             windowtitle="JDepend ${version} API"
+             doctitle="JDepend ${version} API"
+             bottom="Copyright &#169; 1999-2005 Clarkware Consulting, Inc.">
+      <classpath refid="project.classpath"/>
+    </javadoc>
+  </target>
+
+
+  <target name="jar" depends="compile"
+          description="Creates a JAR file">
+    
+    <mkdir dir="${dist.dir}"/>
+    
+    <jar destfile="${dist.dir}/${dist.name}.jar"
+         basedir="${build.dir}" />
+
+  </target>
+
+  <target name="package"
+          depends="clean, test, jar, javadoc"
+          description="Creates a distribution file">
+
+    <copy todir="${package.dir}">
+      <fileset dir="${basedir}">
+        <include name="build.xml"/>
+        <include name="README"/>
+        <include name="CHANGES"/>
+        <include name="LICENSE"/>
+      </fileset>
+    </copy>
+    
+    <copy todir="${package.dir}/docs">
+      <fileset dir="${docs.dir}"/>
+    </copy>
+    
+    <copy todir="${package.dir}/src">
+      <fileset dir="${src.dir}"/>
+    </copy>
+    
+    <copy todir="${package.dir}/test">
+      <fileset dir="${test.dir}"/>
+    </copy>  
+    
+    <copy todir="${package.dir}/sample">
+      <fileset dir="sample"/>
+    </copy>
+    
+    <copy todir="${package.dir}/contrib">
+      <fileset dir="contrib">
+        <include name="jdepend2dot.sh"/>
+        <include name="jdepend2dot.xsl"/>
+        <include name="**/fitnesse/*"/>
+      </fileset>
+    </copy> 
+    
+    <copy todir="${package.dir}/lib"
+          file="${dist.dir}/${dist.name}.jar"/>
+
+    <tar tarfile="${dist.dir}/${dist.name}.tar.gz"
+         basedir="${dist.dir}/"
+         compression="gzip"
+         includes="${dist.name}/**" />
+
+    <zip destfile="${dist.dir}/${dist.name}.zip"
+         basedir="${dist.dir}/"
+         includes="${dist.name}/**" />
+    
+  </target> 
+
+  <target name="clean" 
+          description="Deletes all build artifacts">
+    <delete dir="${build.dir}"/>
+    <delete dir="${dist.dir}"/>
+  </target>
+
+</project>

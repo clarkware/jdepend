@@ -1,0 +1,198 @@
+<?xml version="1.0"?>
+<JDepend>
+    <Packages>
+
+        <Package name="epayment.adapters">
+            <Stats>
+                <TotalClasses>2</TotalClasses>
+                <ConcreteClasses>2</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>4</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class>ABCGatewayAdapter</Class>
+                <Class>XYZGatewayAdapter</Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>com.abc.epayment</Package>
+                <Package>com.xyz.epayment</Package>
+                <Package>epayment.framework</Package>
+                <Package>epayment.response</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="epayment.commands">
+            <Stats>
+                <TotalClasses>5</TotalClasses>
+                <ConcreteClasses>5</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>1</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class>AuthorizeCommand</Class>
+                <Class>CaptureCommand</Class>
+                <Class>CreditCommand</Class>
+                <Class>SaleCommand</Class>
+                <Class>VoidSaleCommand</Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>epayment.framework</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="epayment.framework">
+            <Stats>
+                <TotalClasses>6</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
+                <AbstractClasses>5</AbstractClasses>
+                <Ca>5</Ca>
+                <Ce>0</Ce>
+                <A>0.83</A>
+                <I>0</I>
+                <D>0.17</D>
+            </Stats>
+
+            <AbstractClasses>
+                <Class>AbstractPaymentCommand</Class>
+                <Class>IGatewayAdapter</Class>
+                <Class>IPaymentCommand</Class>
+                <Class>IPaymentRequest</Class>
+                <Class>IPaymentResponse</Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class>PaymentException</Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>epayment.adapters</Package>
+                <Package>epayment.commands</Package>
+                <Package>epayment.processor</Package>
+                <Package>epayment.request</Package>
+                <Package>epayment.response</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="epayment.processor">
+            <Stats>
+                <TotalClasses>2</TotalClasses>
+                <ConcreteClasses>2</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>1</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class>PaymentProcessor</Class>
+                <Class>PaymentProcessorConfigurator</Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>epayment.framework</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="epayment.request">
+            <Stats>
+                <TotalClasses>1</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>1</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class>PaymentRequest</Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>epayment.framework</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="epayment.response">
+            <Stats>
+                <TotalClasses>1</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>1</Ce>
+                <A>0</A>
+                <I>0.5</I>
+                <D>0.5</D>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class>PaymentResponse</Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>epayment.framework</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>epayment.adapters</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="com.abc.epayment">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="com.xyz.epayment">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+    </Packages>
+
+    <Cycles>
+    </Cycles>
+</JDepend>

@@ -1,0 +1,208 @@
+JDepend Change Log
+
+
+Version 2.9.1 - 5/6/05
+----------------------
+
+- Fixed the GUI runner to support the -components option.
+
+Version 2.9 - 12/27/04
+----------------------
+
+- Includes the Module Dependencies fixture for FitNesse, contributed
+  by Bob Martin.  Thanks, Bob!
+  (See http://www.butunclebob.com/ArticleS.UncleBob.JdependFixture)
+
+- Declared components now include an implicit trailing ".".    
+  For example, if you want to treat all sub-packages beneath
+  the "com.foo" package as a component, use
+
+    java jdepend.textui.JDepend -components com.foo /path/to/classes
+
+  or, programmatically, use 
+
+    jdepend.setComponents("com.foo");
+
+  Note, however, that an implicit "." will be appended ("com.foo."),
+  which means that the package "com.foobar", for example, will NOT be 
+  included in the "com.foo" component.
+ 
+- Added a version number to the JAR file.
+
+
+Version 2.8 - 9/2/04
+--------------------
+
+- Components can now be defined using the -components option to any
+  JDepend user interface.
+
+- Added the Graphviz stylesheet (contrib/jdepend2dot.xsl) to transform
+  the JDepend XML format into the Graphviz dot file
+  format. (Contributed by David Bock.)
+
+- Fixed a minor bug related to using the exclude tag with the JDepend
+  Ant task.
+
+- Fixed a minor bug that was exhausting file descriptors for large
+  (2000+) file sets.
+
+
+Version 2.7 - 4/10/04
+---------------------
+
+- Set UTF-8 as the output encoding for the XML output so that the XML
+  file generated is valid if the data contains non-ASCII
+  characters. (Thanks to Olivier Mengue.)
+
+
+Version 2.6 - 2/19/04 (Somewhere between Denver and Austin)
+-----------------------------------------------------------
+
+- Classes in .jar, .war, and .zip files are now analyzed.
+
+- Added JavaPackage.collectAllCycles() to support the Eclipse plugin
+  and to start experimenting with more exhaustive cycle detection
+  techniques.
+
+
+Version 2.5 - 2/17/03
+---------------------
+
+- Source-file analysis is no longer supported.
+
+- Inner classes are now analyzed by default. To disable analyzing
+  inner classes, set the 'analyzeInnerClasses' property to 'false' in
+  the jdepend.properties file.
+
+- Added setFilter() method to all JDepend class variants to support
+  new JDepend Ant task which includes an element for excluding
+  packages. (Thanks to Bob Hays for updating the Ant task!)
+
+- Added JavaClass.getSourceFile() method which returns the name of the
+  source file from which the analyzed class file was generated. Source
+  files must be compiled with debug information (e.g. -g or
+  -g:source), otherwise "Unknown" is returned. (Thanks to Ben Walding
+  for contributing this code!)
+
+
+Version 2.4 - 2/5/03
+--------------------
+
+- Source-file analysis is now deprecated. Please adjust to using
+  class-file analysis by simply pointing JDepend at directories
+  containing class files. The next version will not support the
+  analysis of source files.
+
+- Added support for presetting a volatility (V) value on a
+  package-by-package basis.
+
+- Unzips into versioned directory.
+
+
+Version 2.3 - 1/3/03
+--------------------
+
+- Removed java.* and javax.* from the default package filter. By
+  default, no packages are filtered.
+
+- Added a constructor to jdepend.framework.JDepend that takes a
+  PackageFilter parameter. Filters can now be applied by using this
+  constructor or by creating a jdepend.properties file in the
+  classPATH (see samples/jdepend.properties).
+
+- Fixed several bugs related to properly identifying class and
+  interface names when parsing source files.
+
+- Fixed bug parsing java.lang.Object
+
+- Modified jdepend.xmlui.JDepend to always generate XML for the
+  English locale so that '.' is used as the decimal separator. XML
+  Schema identifies a float with a mandatory '.'.  XSL is unable to
+  transform decimal separators other than ".".
+
+- Reorganized directory structure to include top-level 'src' and
+  'tests' directories.
+
+
+Version 2.2 - 10/25/01
+----------------------
+
+- Removed validation of major/minor class file versions during class
+  file parsing to support Java 1.4 and beyond.
+
+- Added "Interpreting Dependency Cycles" section to documentation.
+
+- Clean-up of build.xml for consistency and added example use of
+  JDepend Ant task.
+
+
+Version 2.1 - 8/6/01
+--------------------
+
+- When parsing class files, constant pool class constants that refer
+  to array types are now properly parsed.
+
+- When parsing source files, leading spaces are now properly parsed
+  for package names, imports, and class declarations.
+
+
+Version 2.0 - 8/1/01
+--------------------
+
+- Added support for parsing class files in addition to source files.
+  Class file parsing is more accurate in its ability to identify
+  referenced packages not directly visible from 'package' or 'import'
+  statements. Analyzed package references include super classes,
+  implemented interfaces, class attribute types, method return types,
+  method parameter types, method exception types, and method local
+  variable types. If a given directory contains both a source file and
+  a class file for the same Java class, then the class file is
+  analyzed and the source file is ignored. Class files must exist in a
+  directory; JAR files are not supported in this release.
+
+
+Version 1.4 - 7/20/01
+---------------------
+
+- Added package dependency constraints to support writing tests that
+  fail if any package dependency other than those declared in the
+  dependency constraints are detected.
+
+- Added the jdepend.xmlui.JDepend class to generate the package
+  metrics, dependencies, and cycles in an XML format for easier
+  integration with other tools.
+
+
+Version 1.3 - 7/5/01
+--------------------
+
+- Package dependency cycles can now detected and the packages
+  participating in a package dependency cycle can be traversed. By
+  default, the textual UI prints the hierarchical paths of each
+  package dependency cycle and the graphical UI marks any packages
+  containing cyclic package dependencies with a "Cyclic" label.
+
+- DistanceExampleTest was renamed to ExampleTest, which now also
+  contains example JUnit test methods for automatically checking for
+  the existence of package dependency cycles.
+
+
+Version 1.2 - 5/11/01
+---------------------
+
+- Recognition of 'final' and 'strictfp' class modifiers.
+
+- Trim extra whitespace from imports and class name declaration.
+
+- Ignore trailing comments from class name declaration.
+
+- Add delegating addDirectory() method to  the jdepend.textui.JDepend
+  and jdepend.swingui.JDepend classes.
+
+- Improved command-line error handling.
+
+
+Version 1.1 - 1/25/01
+---------------------
+
+- Initial public release.

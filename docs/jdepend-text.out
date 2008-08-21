@@ -1,0 +1,217 @@
+
+--------------------------------------------------
+- Package: epayment.adapters
+--------------------------------------------------
+
+Stats:
+    Total Classes: 2
+    Concrete Classes: 2
+    Abstract Classes: 0
+
+    Ca: 0
+    Ce: 4
+
+    A: 0
+    I: 1
+    D: 0
+
+Abstract Classes:
+
+Concrete Classes:
+    ABCGatewayAdapter
+    XYZGatewayAdapter
+
+Depends Upon:
+    com.abc.epayment
+    com.xyz.epayment
+    epayment.framework
+    epayment.response
+
+Used By:
+    Not used by any analyzed packages.
+
+
+--------------------------------------------------
+- Package: epayment.commands
+--------------------------------------------------
+
+Stats:
+    Total Classes: 5
+    Concrete Classes: 5
+    Abstract Classes: 0
+
+    Ca: 0
+    Ce: 1
+
+    A: 0
+    I: 1
+    D: 0
+
+Abstract Classes:
+
+Concrete Classes:
+    AuthorizeCommand
+    CaptureCommand
+    CreditCommand
+    SaleCommand
+    VoidSaleCommand
+
+Depends Upon:
+    epayment.framework
+
+Used By:
+    Not used by any analyzed packages.
+
+
+--------------------------------------------------
+- Package: epayment.framework
+--------------------------------------------------
+
+Stats:
+    Total Classes: 6
+    Concrete Classes: 1
+    Abstract Classes: 5
+
+    Ca: 5
+    Ce: 0
+
+    A: 0.83
+    I: 0
+    D: 0.17
+
+Abstract Classes:
+    AbstractPaymentCommand
+    IGatewayAdapter
+    IPaymentCommand
+    IPaymentRequest
+    IPaymentResponse
+
+Concrete Classes:
+    PaymentException
+
+Depends Upon:
+    Not dependent on any packages.
+
+Used By:
+    epayment.adapters
+    epayment.commands
+    epayment.processor
+    epayment.request
+    epayment.response
+
+
+--------------------------------------------------
+- Package: epayment.processor
+--------------------------------------------------
+
+Stats:
+    Total Classes: 2
+    Concrete Classes: 2
+    Abstract Classes: 0
+
+    Ca: 0
+    Ce: 1
+
+    A: 0
+    I: 1
+    D: 0
+
+Abstract Classes:
+
+Concrete Classes:
+    PaymentProcessor
+    PaymentProcessorConfigurator
+
+Depends Upon:
+    epayment.framework
+
+Used By:
+    Not used by any analyzed packages.
+
+
+--------------------------------------------------
+- Package: epayment.request
+--------------------------------------------------
+
+Stats:
+    Total Classes: 1
+    Concrete Classes: 1
+    Abstract Classes: 0
+
+    Ca: 0
+    Ce: 1
+
+    A: 0
+    I: 1
+    D: 0
+
+Abstract Classes:
+
+Concrete Classes:
+    PaymentRequest
+
+Depends Upon:
+    epayment.framework
+
+Used By:
+    Not used by any analyzed packages.
+
+
+--------------------------------------------------
+- Package: epayment.response
+--------------------------------------------------
+
+Stats:
+    Total Classes: 1
+    Concrete Classes: 1
+    Abstract Classes: 0
+
+    Ca: 1
+    Ce: 1
+
+    A: 0
+    I: 0.5
+    D: 0.5
+
+Abstract Classes:
+
+Concrete Classes:
+    PaymentResponse
+
+Depends Upon:
+    epayment.framework
+
+Used By:
+    epayment.adapters
+
+--------------------------------------------------
+- Package: com.abc.epayment
+--------------------------------------------------
+No stats available: package referenced, but not analyzed.
+
+
+--------------------------------------------------
+- Package: com.xyz.epayment
+--------------------------------------------------
+No stats available: package referenced, but not analyzed.
+
+
+--------------------------------------------------
+- Package Dependency Cycles:
+--------------------------------------------------
+
+
+--------------------------------------------------
+- Summary:
+--------------------------------------------------
+
+Name, Class Count, Abstract Class Count, Ca, Ce, A, I, D:
+
+com.abc.epayment,0,0,1,0,0,0,1
+com.xyz.epayment,0,0,1,0,0,0,1
+epayment.adapters,2,0,0,4,0,1,0
+epayment.commands,5,0,0,1,0,1,0
+epayment.framework,6,5,5,0,0.83,0,0.17
+epayment.processor,2,0,0,1,0,1,0
+epayment.request,1,0,0,1,0,1,0
+epayment.response,1,0,1,1,0,0.5,0.5

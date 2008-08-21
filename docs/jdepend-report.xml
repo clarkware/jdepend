@@ -1,0 +1,390 @@
+<?xml version="1.0"?>
+<JDepend>
+    <Packages>
+
+        <Package name="java.awt">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.awt.event">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.io">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.lang">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.lang.reflect">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.math">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.net">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.rmi">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.sql">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.text">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.util">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.util.jar">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.util.zip">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="javax.swing">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="javax.swing.event">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="javax.swing.tree">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="jdepend.framework">
+            <Stats>
+                <TotalClasses>35</TotalClasses>
+                <ConcreteClasses>31</ConcreteClasses>
+                <AbstractClasses>4</AbstractClasses>
+                <Ca>3</Ca>
+                <Ce>13</Ce>
+                <A>0.11</A>
+                <I>0.81</I>
+                <D>0.07</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="AbstractParser.java">
+                    jdepend.framework.AbstractParser
+                </Class>
+                <Class sourceFile="MockAbstractClass.java">
+                    jdepend.framework.MockAbstractClass
+                </Class>
+                <Class sourceFile="MockInterface.java">
+                    jdepend.framework.MockInterface
+                </Class>
+                <Class sourceFile="ParserListener.java">
+                    jdepend.framework.ParserListener
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="AllTests.java">
+                    jdepend.framework.AllTests
+                </Class>
+                <Class sourceFile="ClassFileParser.java">
+                    jdepend.framework.ClassFileParser
+                </Class>
+                <Class sourceFile="ClassFileParser.java">
+                    jdepend.framework.ClassFileParser$AttributeInfo
+                </Class>
+                <Class sourceFile="ClassFileParser.java">
+                    jdepend.framework.ClassFileParser$Constant
+                </Class>
+                <Class sourceFile="ClassFileParser.java">
+                    jdepend.framework.ClassFileParser$FieldOrMethodInfo
+                </Class>
+                <Class sourceFile="ClassFileParserTest.java">
+                    jdepend.framework.ClassFileParserTest
+                </Class>
+                <Class sourceFile="CollectAllCyclesTest.java">
+                    jdepend.framework.CollectAllCyclesTest
+                </Class>
+                <Class sourceFile="ComponentTest.java">
+                    jdepend.framework.ComponentTest
+                </Class>
+                <Class sourceFile="ConstraintTest.java">
+                    jdepend.framework.ConstraintTest
+                </Class>
+                <Class sourceFile="CycleTest.java">
+                    jdepend.framework.CycleTest
+                </Class>
+                <Class sourceFile="DependencyConstraint.java">
+                    jdepend.framework.DependencyConstraint
+                </Class>
+                <Class sourceFile="ExampleTest.java">
+                    jdepend.framework.ExampleTest
+                </Class>
+                <Class sourceFile="FileManager.java">
+                    jdepend.framework.FileManager
+                </Class>
+                <Class sourceFile="FileManagerTest.java">
+                    jdepend.framework.FileManagerTest
+                </Class>
+                <Class sourceFile="FilterTest.java">
+                    jdepend.framework.FilterTest
+                </Class>
+                <Class sourceFile="JDepend.java">
+                    jdepend.framework.JDepend
+                </Class>
+                <Class sourceFile="JDependTestCase.java">
+                    jdepend.framework.JDependTestCase
+                </Class>
+                <Class sourceFile="JarFileParserTest.java">
+                    jdepend.framework.JarFileParserTest
+                </Class>
+                <Class sourceFile="JavaClass.java">
+                    jdepend.framework.JavaClass
+                </Class>
+                <Class sourceFile="JavaClass.java">
+                    jdepend.framework.JavaClass$ClassComparator
+                </Class>
+                <Class sourceFile="JavaClassBuilder.java">
+                    jdepend.framework.JavaClassBuilder
+                </Class>
+                <Class sourceFile="JavaClassBuilder.java">
+                    jdepend.framework.JavaClassBuilder$1
+                </Class>
+                <Class sourceFile="JavaPackage.java">
+                    jdepend.framework.JavaPackage
+                </Class>
+                <Class sourceFile="MetricTest.java">
+                    jdepend.framework.MetricTest
+                </Class>
+                <Class sourceFile="MockConcreteClass.java">
+                    jdepend.framework.MockConcreteClass
+                </Class>
+                <Class sourceFile="MockConcreteClass.java">
+                    jdepend.framework.MockConcreteClass$MockInnerClass
+                </Class>
+                <Class sourceFile="MockConcreteClass.java">
+                    jdepend.framework.MockPackageClass
+                </Class>
+                <Class sourceFile="PackageComparator.java">
+                    jdepend.framework.PackageComparator
+                </Class>
+                <Class sourceFile="PackageFilter.java">
+                    jdepend.framework.PackageFilter
+                </Class>
+                <Class sourceFile="PropertyConfigurator.java">
+                    jdepend.framework.PropertyConfigurator
+                </Class>
+                <Class sourceFile="PropertyConfiguratorTest.java">
+                    jdepend.framework.PropertyConfiguratorTest
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.lang.reflect</Package>
+                <Package>java.math</Package>
+                <Package>java.net</Package>
+                <Package>java.rmi</Package>
+                <Package>java.sql</Package>
+                <Package>java.text</Package>
+                <Package>java.util</Package>
+                <Package>java.util.jar</Package>
+                <Package>java.util.zip</Package>
+                <Package>junit.framework</Package>
+                <Package>junit.textui</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>jdepend.swingui</Package>
+                <Package>jdepend.textui</Package>
+                <Package>jdepend.xmlui</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="jdepend.swingui">
+            <Stats>
+                <TotalClasses>19</TotalClasses>
+                <ConcreteClasses>18</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>10</Ce>
+                <A>0.05</A>
+                <I>1</I>
+                <D>0.05</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="PackageNode.java">
+                    jdepend.swingui.PackageNode
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="AboutDialog.java">
+                    jdepend.swingui.AboutDialog
+                </Class>
+                <Class sourceFile="AboutDialog.java">
+                    jdepend.swingui.AboutDialog$1
+                </Class>
+                <Class sourceFile="AboutDialog.java">
+                    jdepend.swingui.AboutDialog$2
+                </Class>
+                <Class sourceFile="AfferentNode.java">
+                    jdepend.swingui.AfferentNode
+                </Class>
+                <Class sourceFile="DependTree.java">
+                    jdepend.swingui.DependTree
+                </Class>
+                <Class sourceFile="DependTreeModel.java">
+                    jdepend.swingui.DependTreeModel
+                </Class>
+                <Class sourceFile="EfferentNode.java">
+                    jdepend.swingui.EfferentNode
+                </Class>
+                <Class sourceFile="JDepend.java">
+                    jdepend.swingui.JDepend
+                </Class>
+                <Class sourceFile="JDepend.java">
+                    jdepend.swingui.JDepend$1
+                </Class>
+                <Class sourceFile="JDepend.java">
+                    jdepend.swingui.JDepend$2
+                </Class>
+                <Class sourceFile="JDepend.java">
+                    jdepend.swingui.JDepend$3
+                </Class>
+                <Class sourceFile="JDepend.java">
+                    jdepend.swingui.JDepend$4
+                </Class>
+                <Class sourceFile="JDepend.java">
+                    jdepend.swingui.JDepend$5
+                </Class>
+                <Class sourceFile="JDepend.java">
+                    jdepend.swingui.JDepend$6
+                </Class>
+                <Class sourceFile="JDepend.java">
+                    jdepend.swingui.JDepend$AboutAction
+                </Class>
+                <Class sourceFile="JDepend.java">
+                    jdepend.swingui.JDepend$ExitAction
+                </Class>
+                <Class sourceFile="JDepend.java">
+                    jdepend.swingui.JDepend$TreeListener
+                </Class>
+                <Class sourceFile="StatusPanel.java">
+                    jdepend.swingui.StatusPanel
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>java.awt</Package>
+                <Package>java.awt.event</Package>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.text</Package>
+                <Package>java.util</Package>
+                <Package>javax.swing</Package>
+                <Package>javax.swing.event</Package>
+                <Package>javax.swing.tree</Package>
+                <Package>jdepend.framework</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="jdepend.textui">
+            <Stats>
+                <TotalClasses>1</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>5</Ce>
+                <A>0</A>
+                <I>0.83</I>
+                <D>0.17</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="JDepend.java">
+                    jdepend.textui.JDepend
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.text</Package>
+                <Package>java.util</Package>
+                <Package>jdepend.framework</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>jdepend.xmlui</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="jdepend.xmlui">
+            <Stats>
+                <TotalClasses>1</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>6</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="JDepend.java">
+                    jdepend.xmlui.JDepend
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.text</Package>
+                <Package>java.util</Package>
+                <Package>jdepend.framework</Package>
+                <Package>jdepend.textui</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="junit.framework">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="junit.textui">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+    </Packages>
+
+    <Cycles>
+    </Cycles>
+</JDepend>
