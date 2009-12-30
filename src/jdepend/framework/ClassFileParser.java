@@ -76,11 +76,11 @@ public class ClassFileParser extends AbstractParser {
 
         debug("\nParsing " + fileName + "...");
 
-        FileInputStream in = null;
+        InputStream in = null;
 
         try {
 
-            in = new FileInputStream(classFile);
+            in = new BufferedInputStream(new FileInputStream(classFile));
 
             return parse(in);
 
