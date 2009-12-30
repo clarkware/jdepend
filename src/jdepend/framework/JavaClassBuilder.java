@@ -123,7 +123,7 @@ public class JavaClassBuilder {
             if (fileManager.acceptClassFileName(e.getName())) {
                 InputStream is = null;
                 try {
-                    is = file.getInputStream(e);
+	                is = new BufferedInputStream(file.getInputStream(e));
                     JavaClass jc = parser.parse(is);
                     javaClasses.add(jc);
                 } finally {
