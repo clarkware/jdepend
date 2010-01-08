@@ -128,6 +128,7 @@ public class ExampleTest extends TestCase {
         framework.dependsUpon(junitframework);
         framework.dependsUpon(junitui);
         text.dependsUpon(framework);
+        xml.dependsUpon(framework);
         xml.dependsUpon(text);
         swing.dependsUpon(framework);
 
