@@ -2,11 +2,19 @@ package jdepend.framework;
 
 import java.math.BigDecimal;
 
+import jdepend.framework.p1.ExampleInnerAnnotation;
+import jdepend.framework.p2.ExampleEnum;
+
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runners.Suite.SuiteClasses;
+
 /**
  * @author <b>Mike Clark</b>
  * @author Clarkware Consulting, Inc.
  */
 
+@org.junit.runners.Suite.SuiteClasses(java.applet.AppletStub.class)
 public class ExampleConcreteClass extends ExampleAbstractClass {
 
     private java.sql.Statement[] statements;
@@ -38,6 +46,18 @@ public class ExampleConcreteClass extends ExampleAbstractClass {
     public java.lang.String[] e() {
         java.lang.String[] strings = new java.lang.String[1];
         return strings;
+    }
+
+    @org.junit.Test(expected = javax.crypto.BadPaddingException.class)
+    @ExampleAnnotation(
+    		c1 = java.awt.geom.AffineTransform.class,
+    		c2 = java.awt.image.renderable.ContextualRenderedImageFactory.class,
+    		c3 = @ExampleInnerAnnotation({
+    				java.awt.im.InputContext.class,
+    				java.awt.dnd.peer.DragSourceContextPeer.class}),
+    		c4 = ExampleEnum.E1)
+	@org.junit.Ignore
+    public void f() {
     }
 
     public class ExampleInnerClass {

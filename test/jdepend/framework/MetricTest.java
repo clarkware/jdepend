@@ -44,7 +44,7 @@ public class MetricTest extends JDependTestCase {
 
     private void assertAnalyzePackages() {
 
-        assertEquals(39, jdepend.countClasses());
+        assertEquals(43, jdepend.countClasses());
 
         PackageFilter filter = jdepend.getFilter();
         filter.addPackage("junit.*");
@@ -63,12 +63,12 @@ public class MetricTest extends JDependTestCase {
         assertNotNull(p);
 
         assertEquals(25, p.getConcreteClassCount());
-        assertEquals(4, p.getAbstractClassCount());
+        assertEquals(5, p.getAbstractClassCount());
         assertEquals(3, p.afferentCoupling());
-        assertEquals(0, p.efferentCoupling());
-        assertEquals(format(0.14f), format(p.abstractness()));
-        assertEquals(format(0.0f), format(p.instability()));
-        assertEquals(format(0.86f), format(p.distance()));
+        assertEquals(5, p.efferentCoupling());
+        assertEquals(format(0.17f), format(p.abstractness()));
+        assertEquals(format(0.62f), format(p.instability()));
+        assertEquals(format(0.21f), format(p.distance()));
         assertEquals(1, p.getVolatility());
     }
 

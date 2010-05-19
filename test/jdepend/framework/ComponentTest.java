@@ -42,7 +42,7 @@ public class ComponentTest extends JDependTestCase {
         jdepend.analyze();
         
         Collection packages = jdepend.getPackages();
-        assertEquals(4, packages.size());
+        assertEquals(6, packages.size());
         
         assertJDependPackage();
         assertJUnitPackage();
@@ -53,17 +53,17 @@ public class ComponentTest extends JDependTestCase {
     private void assertJDependPackage() {
         JavaPackage p = jdepend.getPackage("jdepend");
         assertEquals("jdepend", p.getName());
-        assertEquals(34, p.getConcreteClassCount());
-        assertEquals(5, p.getAbstractClassCount());
+        assertEquals(36, p.getConcreteClassCount());
+        assertEquals(7, p.getAbstractClassCount());
         assertEquals(0, p.afferentCoupling());
-        assertEquals(3, p.efferentCoupling());
-        assertEquals(format(0.13f), format(p.abstractness()));
+        assertEquals(5, p.efferentCoupling());
+        assertEquals(format(0.16f), format(p.abstractness()));
         assertEquals("1", format(p.instability()));
-        assertEquals(format(0.13f), format(p.distance()));
+        assertEquals(format(0.16f), format(p.distance()));
         assertEquals(1, p.getVolatility());
         
         Collection efferents = p.getEfferents();
-        assertEquals(3, efferents.size());
+        assertEquals(5, efferents.size());
         assertTrue(efferents.contains(new JavaPackage("java")));
         assertTrue(efferents.contains(new JavaPackage("javax")));
         assertTrue(efferents.contains(new JavaPackage("junit")));

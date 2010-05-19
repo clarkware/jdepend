@@ -265,4 +265,8 @@ public class JavaPackage {
     public int hashCode() {
         return getName().hashCode();
     }
+    
+    public String toString() {
+    	return name;
+    }
 }

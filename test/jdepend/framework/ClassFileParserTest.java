@@ -106,7 +106,7 @@ public class ClassFileParserTest extends JDependTestCase {
         assertEquals("ExampleConcreteClass.java", clazz.getSourceFile());
 
         Collection imports = clazz.getImportedPackages();
-        assertEquals(9, imports.size());
+        assertEquals(19, imports.size());
 
         assertTrue(imports.contains(new JavaPackage("java.net")));
         assertTrue(imports.contains(new JavaPackage("java.text")));
@@ -117,6 +117,18 @@ public class ClassFileParserTest extends JDependTestCase {
         assertTrue(imports.contains(new JavaPackage("java.util")));
         assertTrue(imports.contains(new JavaPackage("java.util.jar")));
         assertTrue(imports.contains(new JavaPackage("java.math")));
+        
+        // annotations
+        assertTrue(imports.contains(new JavaPackage("org.junit.runners")));
+        assertTrue(imports.contains(new JavaPackage("java.applet")));
+        assertTrue(imports.contains(new JavaPackage("org.junit")));
+        assertTrue(imports.contains(new JavaPackage("javax.crypto")));
+        assertTrue(imports.contains(new JavaPackage("java.awt.geom")));
+        assertTrue(imports.contains(new JavaPackage("java.awt.image.renderable")));
+        assertTrue(imports.contains(new JavaPackage("jdepend.framework.p1")));
+        assertTrue(imports.contains(new JavaPackage("jdepend.framework.p2")));
+        assertTrue(imports.contains(new JavaPackage("java.awt.im")));
+        assertTrue(imports.contains(new JavaPackage("java.awt.dnd.peer")));
     }
 
     public void testInnerClass() throws IOException {
