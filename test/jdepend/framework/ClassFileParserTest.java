@@ -171,4 +171,9 @@ public class ClassFileParserTest extends JDependTestCase {
         assertTrue(imports.contains(new JavaPackage("java.lang")));
 
     }
+    
+    public void testExampleClassFileFromTimDrury() throws IOException {
+        // see http://github.com/clarkware/jdepend/issues#issue/1
+        parser.parse(ClassFileParser.class.getResourceAsStream("/jdepend/framework/example_class.bin"));
+	}
 }
