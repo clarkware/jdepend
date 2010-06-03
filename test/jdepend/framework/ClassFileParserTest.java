@@ -174,6 +174,7 @@ public class ClassFileParserTest extends JDependTestCase {
     
     public void testExampleClassFileFromTimDrury() throws IOException {
         // see http://github.com/clarkware/jdepend/issues#issue/1
-        parser.parse(ClassFileParser.class.getResourceAsStream("/jdepend/framework/example_class.bin"));
+        parser.parse(ClassFileParser.class.getResourceAsStream("/data/example_class.bin"));
 	}
 }
+

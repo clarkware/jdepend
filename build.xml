@@ -62,6 +62,9 @@
            debug="${build.debug}">
       <classpath refid="project.classpath"/>
     </javac>
+    <copy todir="${build.dir}/data">
+      <fileset dir="${test.dir}/data" />
+    </copy>
   </target>
 
   <target name="test" depends="compile-tests"
