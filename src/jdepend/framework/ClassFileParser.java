@@ -467,7 +467,7 @@ public class ClassFileParser extends AbstractParser {
     }
 
 	private int u2(byte[] data, int index) {
-		return (data[index] << 8 & 0xFF) | (data[index+1] & 0xFF);
+		return (data[index] << 8 & 0xFF00)  | (data[index+1] & 0xFF);
 	}
 
 	private String getClassConstantName(int entryIndex) throws IOException {
