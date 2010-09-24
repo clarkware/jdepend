@@ -31,17 +31,18 @@ public class ClassFileParser extends AbstractParser {
     public static final int ACC_INTERFACE = 0x200;
     public static final int ACC_ABSTRACT = 0x400;
     
+    protected JavaClass jClass;
+    protected Constant[] constantPool;
+    protected DataInputStream in;
+    
     private String fileName;
     private String className;
     private String superClassName;
     private String interfaceNames[];
     private boolean isAbstract;
-    private JavaClass jClass;
-    private Constant[] constantPool;
     private FieldOrMethodInfo[] fields;
     private FieldOrMethodInfo[] methods;
     private AttributeInfo[] attributes;
-    private DataInputStream in;
 
     
     public ClassFileParser() {
