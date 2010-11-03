@@ -76,7 +76,7 @@ public class FileManager {
 
     public Collection extractFiles() {
 
-        Collection files = new ArrayList();
+        Collection files = new TreeSet();
 
         for (Iterator i = directories.iterator(); i.hasNext();) {
             File directory = (File)i.next();
