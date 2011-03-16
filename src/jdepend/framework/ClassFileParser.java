@@ -745,8 +745,6 @@ public class ClassFileParser extends AbstractParser {
     public static void main(String args[]) {
         try {
 
-            ClassFileParser.DEBUG = true;
-
             if (args.length <= 0) {
                 System.err.println("usage: ClassFileParser <class-file>");
                 System.exit(0);

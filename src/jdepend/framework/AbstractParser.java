@@ -16,8 +16,7 @@ public abstract class AbstractParser {
 
     private ArrayList parseListeners;
     private PackageFilter filter;
-    public static boolean DEBUG = false;
-
+    public static final boolean DEBUG = Boolean.parseBoolean( System.getProperty( "jdepend.debug", "false" ) );
 
     public AbstractParser() {
         this(new PackageFilter());
