@@ -12,7 +12,7 @@ import jdepend.framework.JavaPackage;
  * The <code>JDepend</code> class analyzes directories of Java class files, generates metrics for each Java package, and
  * reports the metrics in a HTML format.
  * 
- * @author <b>Richard Oliver Legendi</b> (rlegendi)
+ * @author <b>Richard Oliver Legendi</b> (<a href="http://people.inf.elte.hu/legendi">rlegendi</a>)
  */
 public class JDepend
 		extends jdepend.textui.JDepend {
@@ -42,23 +42,59 @@ public class JDepend
 		return "src" + File.separatorChar + javaClass.getName().replace( '.', File.separatorChar );
 	}
 	
+	/**
+	 * Includes a file to the current <code>PrintWriter</code> object.
+	 * 
+	 * <p>
+	 * File allocation is performed through the {@link Class#getResourceAsStream(String)} function, using the
+	 * <code>'/'</code> prefix helps navigation with an absolute name of the referred resource.
+	 * </p>
+	 * 
+	 * @param fileName the file to append to the current writer object
+	 */
+	private void includeFile(final String fileName) {
+		BufferedReader br = null;
+		
+		try {
+			br = new BufferedReader( new InputStreamReader( JDepend.class.getResourceAsStream( fileName ) ) );
+			
+			String line = null;
+			while ( ( line = br.readLine() ) != null ) {
+				getWriter().println( line );
+			}
+		} catch (final Exception e) {
+			usage( e.getMessage() );
+		} finally {
+			if ( br != null ) {
+				try {
+					br.close();
+				} catch (final IOException e) {
+					usage( e.getMessage() );
+				}
+			}
+		}
+	}
+	
 	protected void printHeader() {
-		// TODO Some prettier CSS would be helpful
 		getWriter().println( "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">" );
 		getWriter().println( "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\">" );
 		getWriter().println( "<head>" );
 		getWriter().println( "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">" );
 		getWriter().println( "<meta name=\"generator\" content=\"JDepend\" />" );
 		getWriter().println( "<title>JDepend Analysis Report</title>" );
+		
 		getWriter().println( "<style type=\"text/css\">" );
-		getWriter().println( tab() + "body {" );
-		getWriter().println( tab( 2 ) + "color:#000000;" );
-		getWriter().println( tab() + "}" );
+		includeFile( "/main.css" );
 		getWriter().println( "</style>" );
+		
 		getWriter().println( "</head>" );
 		getWriter().println( "<body>" );
 		getWriter().println( "<h1>JDepend Analysis Report</h1>" );
-		getWriter().println( "<p>Designed to use <a href=\"http://clarkware.com/software/JDepend.html\">JDepend</a> with <a href=\"http://ant.apache.org/ant\">Ant</a>.</p>" );
+		getWriter().println( "<p>Designed to use with <a href=\"http://clarkware.com/software/JDepend.html\">JDepend</a> and <a href=\"http://ant.apache.org/ant\">Ant</a>.</p>" );
+		getWriter().println( "<p>Report generated at " + new Date() );
+		
+		getWriter().println( "<h2>General Information</h2>" );
+		includeFile( "/info.html" );
 	}
 	
 	protected void printFooter() {
@@ -84,7 +120,7 @@ public class JDepend
 	}
 	
 	protected void printNoStats() {
-		getWriter().println( tab() + "<p id=\"error\">No stats available: package referenced, but not analyzed.</p>" ); // CHECKME
+		getWriter().println( tab() + "<p class=\"message\">No stats available: package referenced, but not analyzed.</p>" ); // CHECKME
 	}
 	
 	protected void printStatistics(final JavaPackage jPackage) {
@@ -135,7 +171,7 @@ public class JDepend
 	}
 	
 	protected void printEfferentsError() {
-		getWriter().println( tab() + "<p id=\"error\">Efferents not available.</p>" );
+		getWriter().println( tab() + "<p class=\"message\">Efferents not available.</p>" );
 	}
 	
 	protected void printAfferentsHeader() {
@@ -147,7 +183,7 @@ public class JDepend
 	}
 	
 	protected void printAfferentsError() {
-		getWriter().println( tab() + "<p id=\"error\">Afferents not available.</p>" );
+		getWriter().println( tab() + "<p class=\"message\">Afferents not available.</p>" );
 	}
 	
 	protected void printCyclesHeader() {
@@ -179,30 +215,49 @@ public class JDepend
 	
 	@SuppressWarnings("rawtypes")
 	protected void printSummary(final Collection packages) {
+		getWriter().println( "<!-- Table design by R. Christie: http://www.smashingmagazine.com/2008/08/13/top-10-css-table-designs/ -->" );
+		
 		getWriter().println( "<h2>Summary</h2>" );
-		getWriter().println( "<table border=\"1\">" );
-		getWriter().println( "<tr>" );
-		getWriter().println( "<td>Name</td> <td>Class Count</td> <td>Abstract Class Count</td> <td>Ca</td> <td>Ce</td> <td>A</td> <td>I</td> <td>D</td> <td>V</td>" );
-		getWriter().println( "</tr>" );
+		getWriter().println( "<table id=\"hor-minimalist-b\" >" );
+		getWriter().println( "<thead>" );
+		getWriter().println( tab( 1 ) + "<tr>" );
+		getWriter().println( tab( 2 ) + "<th scope=\"col\">Name</th>" );
+		getWriter().println( tab( 2 ) + "<th scope=\"col\">Class Count</th>" );
+		getWriter().println( tab( 2 ) + "<th scope=\"col\">Abstract Class Count</th>" );
+		getWriter().println( tab( 2 ) + "<th scope=\"col\">Ca</th>" );
+		getWriter().println( tab( 2 ) + "<th scope=\"col\">Ce</th>" );
+		getWriter().println( tab( 2 ) + "<th scope=\"col\">A</th>" );
+		getWriter().println( tab( 2 ) + "<th scope=\"col\">I</th>" );
+		getWriter().println( tab( 2 ) + "<th scope=\"col\">D</th>" );
+		getWriter().println( tab( 2 ) + "<th scope=\"col\">V</th>" );
+		getWriter().println( tab( 1 ) + "</tr>" );
+		getWriter().println( "</thead>" );
 		
 		final Iterator i = packages.iterator();
 		while ( i.hasNext() ) {
 			final JavaPackage jPackage = (JavaPackage) i.next();
 			
-			getWriter().println( "<tr>" );
-			getWriter().print( "<td>" + jPackage.getName() + "</td>" );
-			getWriter().print( "<td>" + jPackage.getClassCount() + "</td>" );
-			getWriter().print( "<td>" + jPackage.getAbstractClassCount() + "</td>" );
-			getWriter().print( "<td>" + jPackage.afferentCoupling() + "</td>" );
-			getWriter().print( "<td>" + jPackage.efferentCoupling() + "</td>" );
-			getWriter().print( "<td>" + toFormattedString( jPackage.abstractness() ) + "</td>" );
-			getWriter().print( "<td>" + toFormattedString( jPackage.instability() ) + "</td>" );
-			getWriter().print( "<td>" + toFormattedString( jPackage.distance() ) + "</td>" );
-			getWriter().println( "<td>" + jPackage.getVolatility() + "</td>" );
-			getWriter().println( "</tr>" );
+			getWriter().println( "<tbody>" );
+			getWriter().println( tab( 1 ) + "<tr>" );
+			getWriter().println( tab( 2 ) + "<td>" + jPackage.getName() + "</td>" );
+			getWriter().println( tab( 2 ) + "<td>" + jPackage.getClassCount() + "</td>" );
+			getWriter().println( tab( 2 ) + "<td>" + jPackage.getAbstractClassCount() + "</td>" );
+			getWriter().println( tab( 2 ) + "<td>" + jPackage.afferentCoupling() + "</td>" );
+			getWriter().println( tab( 2 ) + "<td>" + jPackage.efferentCoupling() + "</td>" );
+			getWriter().println( tab( 2 ) + "<td>" + toFormattedString( jPackage.abstractness() ) + "</td>" );
+			getWriter().println( tab( 2 ) + "<td>" + toFormattedString( jPackage.instability() ) + "</td>" );
+			getWriter().println( tab( 2 ) + "<td>" + toFormattedString( jPackage.distance() ) + "</td>" );
+			getWriter().println( tab( 2 ) + "<td>" + jPackage.getVolatility() + "</td>" );
+			getWriter().println( tab( 1 ) + "</tr>" );
+			getWriter().println( "</tbody>" );
 		}
 		
 		getWriter().println( "</table>" );
+		
+		getWriter().println();
+		getWriter().println( "<p class=\"footer\">Generated by <a href=\"http://www.clarkware.com/software/JDepend.html\">JDepend</a>.<br/> "
+				+ "HTML output formatting written by <a href=\"http://people.inf.elte.hu/legendi/\">Richard O. Legendi</a>.</p>" );
+		getWriter().println();
 	}
 	
 	/**
