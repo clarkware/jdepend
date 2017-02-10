@@ -35,17 +35,18 @@ public class ClassFileParser extends AbstractParser {
     public static final int ACC_INTERFACE = 0x200;
     public static final int ACC_ABSTRACT = 0x400;
     
+    protected JavaClass jClass;
+    protected Constant[] constantPool;
+    protected DataInputStream in;
+    
     private String fileName;
     private String className;
     private String superClassName;
     private String interfaceNames[];
     private boolean isAbstract;
-    private JavaClass jClass;
-    private Constant[] constantPool;
     private FieldOrMethodInfo[] fields;
     private FieldOrMethodInfo[] methods;
     private AttributeInfo[] attributes;
-    private DataInputStream in;
 
     
     public ClassFileParser() {
@@ -57,7 +58,7 @@ public class ClassFileParser extends AbstractParser {
         reset();
     }
 
-    private void reset() {
+    protected void reset() {
         className = null;
         superClassName = null;
         interfaceNames = new String[0];
@@ -103,7 +104,7 @@ public class ClassFileParser extends AbstractParser {
 
         reset();
 
-        jClass = new JavaClass("Unknown");
+        jClass = newJavaClass();
 
         in = new DataInputStream(is);
 
@@ -137,7 +138,11 @@ public class ClassFileParser extends AbstractParser {
         return jClass;
     }
 
-    private int parseMagic() throws IOException {
+	protected JavaClass newJavaClass() {
+		return new JavaClass("Unknown");
+	}
+
+    protected int parseMagic() throws IOException {
         int magic = in.readInt();
         if (magic != JAVA_MAGIC) {
             throw new IOException("Invalid class file: " + fileName);
@@ -146,15 +151,15 @@ public class ClassFileParser extends AbstractParser {
         return magic;
     }
 
-    private int parseMinorVersion() throws IOException {
+    protected int parseMinorVersion() throws IOException {
         return in.readUnsignedShort();
     }
 
-    private int parseMajorVersion() throws IOException {
+    protected int parseMajorVersion() throws IOException {
         return in.readUnsignedShort();
     }
 
-    private Constant[] parseConstantPool() throws IOException {
+    protected Constant[] parseConstantPool() throws IOException {
         int constantPoolSize = in.readUnsignedShort();
 
         Constant[] pool = new Constant[constantPoolSize];
@@ -177,7 +182,7 @@ public class ClassFileParser extends AbstractParser {
         return pool;
     }
 
-    private void parseAccessFlags() throws IOException {
+    protected void parseAccessFlags() throws IOException {
         int accessFlags = in.readUnsignedShort();
 
         boolean isAbstract = ((accessFlags & ACC_ABSTRACT) != 0);
@@ -189,7 +194,7 @@ public class ClassFileParser extends AbstractParser {
         debug("Parser: abstract = " + this.isAbstract);
     }
 
-    private String parseClassName() throws IOException {
+    protected String parseClassName() throws IOException {
         int entryIndex = in.readUnsignedShort();
         String className = getClassConstantName(entryIndex);
         jClass.setName(className);
@@ -201,7 +206,7 @@ public class ClassFileParser extends AbstractParser {
         return className;
     }
 
-    private String parseSuperClassName() throws IOException {
+    protected String parseSuperClassName() throws IOException {
         int entryIndex = in.readUnsignedShort();
         String superClassName = getClassConstantName(entryIndex);
         addImport(getPackageName(superClassName));
@@ -211,7 +216,7 @@ public class ClassFileParser extends AbstractParser {
         return superClassName;
     }
 
-    private String[] parseInterfaces() throws IOException {
+    protected String[] parseInterfaces() throws IOException {
         int interfacesCount = in.readUnsignedShort();
         String[] interfaceNames = new String[interfacesCount];
         for (int i = 0; i < interfacesCount; i++) {
@@ -225,7 +230,7 @@ public class ClassFileParser extends AbstractParser {
         return interfaceNames;
     }
 
-    private FieldOrMethodInfo[] parseFields() throws IOException {
+    protected FieldOrMethodInfo[] parseFields() throws IOException {
         int fieldsCount = in.readUnsignedShort();
         FieldOrMethodInfo[] fields = new FieldOrMethodInfo[fieldsCount];
         for (int i = 0; i < fieldsCount; i++) {
@@ -242,7 +247,7 @@ public class ClassFileParser extends AbstractParser {
         return fields;
     }
 
-    private FieldOrMethodInfo[] parseMethods() throws IOException {
+    protected FieldOrMethodInfo[] parseMethods() throws IOException {
         int methodsCount = in.readUnsignedShort();
         FieldOrMethodInfo[] methods = new FieldOrMethodInfo[methodsCount];
         for (int i = 0; i < methodsCount; i++) {
@@ -261,7 +266,7 @@ public class ClassFileParser extends AbstractParser {
         return methods;
     }
 
-    private Constant parseNextConstant() throws IOException {
+    protected Constant parseNextConstant() throws IOException {
 
         Constant result;
 
@@ -307,7 +312,7 @@ public class ClassFileParser extends AbstractParser {
         return result;
     }
 
-    private FieldOrMethodInfo parseFieldOrMethodInfo() throws IOException {
+    protected FieldOrMethodInfo parseFieldOrMethodInfo() throws IOException {
 
         FieldOrMethodInfo result = new FieldOrMethodInfo(
                 in.readUnsignedShort(), in.readUnsignedShort(), in
@@ -324,7 +329,7 @@ public class ClassFileParser extends AbstractParser {
         return result;
     }
 
-    private void parseAttributes() throws IOException {
+    protected void parseAttributes() throws IOException {
         int attributesCount = in.readUnsignedShort();
         attributes = new AttributeInfo[attributesCount];
 
@@ -346,7 +351,7 @@ public class ClassFileParser extends AbstractParser {
         }
     }
 
-    private AttributeInfo parseAttribute() throws IOException {
+    protected AttributeInfo parseAttribute() throws IOException {
         AttributeInfo result = new AttributeInfo();
 
         int nameIndex = in.readUnsignedShort();
@@ -364,7 +369,7 @@ public class ClassFileParser extends AbstractParser {
         return result;
     }
 
-    private Constant getConstantPoolEntry(int entryIndex) throws IOException {
+    protected Constant getConstantPoolEntry(int entryIndex) throws IOException {
 
         if (entryIndex < 0 || entryIndex >= constantPool.length) {
             throw new IOException("Illegal constant pool index : " + entryIndex);
@@ -373,7 +378,7 @@ public class ClassFileParser extends AbstractParser {
         return constantPool[entryIndex];
     }
 
-    private void addClassConstantReferences() throws IOException {
+    protected void addClassConstantReferences() throws IOException {
         for (int j = 1; j < constantPool.length; j++) {
             if (constantPool[j].getTag() == CONSTANT_CLASS) {
                 String name = toUTF8(constantPool[j].getNameIndex());
@@ -389,7 +394,7 @@ public class ClassFileParser extends AbstractParser {
         }
     }
 
-    private void addAnnotationsReferences() throws IOException {
+    protected void addAnnotationsReferences() throws IOException {
         for (int j = 1; j < attributes.length; j++) {
             if ("RuntimeVisibleAnnotations".equals(attributes[j].name)) {
                 addAnnotationReferences(attributes[j]);
@@ -407,7 +412,7 @@ public class ClassFileParser extends AbstractParser {
         }
     }
 
-    private void addAnnotationReferences(AttributeInfo annotation) throws IOException {
+    protected void addAnnotationReferences(AttributeInfo annotation) throws IOException {
     	// JVM Spec 4.8.15
     	byte[] data = annotation.value;
     	int numAnnotations = u2(data, 0);
@@ -415,7 +420,7 @@ public class ClassFileParser extends AbstractParser {
     	addAnnotationReferences(data, annotationIndex, numAnnotations);
     }
 
-    private int addAnnotationReferences(byte[] data, int index, int numAnnotations) throws IOException {
+    protected int addAnnotationReferences(byte[] data, int index, int numAnnotations) throws IOException {
     	int visitedAnnotations = 0;
 		while (visitedAnnotations < numAnnotations) {
 	    	int typeIndex = u2(data, index);
@@ -432,7 +437,7 @@ public class ClassFileParser extends AbstractParser {
 		return index;
 	}
     
-    private int addAnnotationElementValueReferences(byte[] data, int index) throws IOException {
+    protected int addAnnotationElementValueReferences(byte[] data, int index) throws IOException {
     	byte tag = data[index];
     	index += 1;
     	switch (tag) {
@@ -475,11 +480,11 @@ public class ClassFileParser extends AbstractParser {
     	return index;
     }
 
-	private int u2(byte[] data, int index) {
+    protected int u2(byte[] data, int index) {
 		return (data[index] << 8 & 0xFF00)  | (data[index+1] & 0xFF);
 	}
 
-	private String getClassConstantName(int entryIndex) throws IOException {
+    protected String getClassConstantName(int entryIndex) throws IOException {
 
         Constant entry = getConstantPoolEntry(entryIndex);
         if (entry == null) {
@@ -488,7 +493,7 @@ public class ClassFileParser extends AbstractParser {
         return slashesToDots(toUTF8(entry.getNameIndex()));
     }
 
-    private String toUTF8(int entryIndex) throws IOException {
+    protected String toUTF8(int entryIndex) throws IOException {
         Constant entry = getConstantPoolEntry(entryIndex);
         if (entry.getTag() == CONSTANT_UTF8) {
             return (String) entry.getValue();
@@ -498,17 +503,17 @@ public class ClassFileParser extends AbstractParser {
                 + entryIndex);
     }
 
-    private void addImport(String importPackage) {
+    protected void addImport(String importPackage) {
         if ((importPackage != null) && (getFilter().accept(importPackage))) {
             jClass.addImportedPackage(new JavaPackage(importPackage));
         }
     }
 
-    private String slashesToDots(String s) {
+    protected String slashesToDots(String s) {
         return s.replace('/', '.');
     }
 
-    private String getPackageName(String s) {
+    protected String getPackageName(String s) {
         if ((s.length() > 0) && (s.charAt(0) == '[')) {
             String types[] = descriptorToTypes(s);
             if (types.length == 0) {
@@ -527,7 +532,7 @@ public class ClassFileParser extends AbstractParser {
         return "Default";
     }
 
-    private String[] descriptorToTypes(String descriptor) {
+    protected String[] descriptorToTypes(String descriptor) {
 
         int typesCount = 0;
         for (int index = 0; index < descriptor.length(); index++) {
@@ -553,7 +558,7 @@ public class ClassFileParser extends AbstractParser {
         return types;
     }
 
-    class Constant {
+    protected class Constant {
 
         private byte _tag;
 
@@ -563,35 +568,35 @@ public class ClassFileParser extends AbstractParser {
 
         private Object _value;
 
-        Constant(byte tag, int nameIndex) {
+        public Constant(byte tag, int nameIndex) {
             this(tag, nameIndex, -1);
         }
 
-        Constant(byte tag, Object value) {
+        public Constant(byte tag, Object value) {
             this(tag, -1, -1);
             _value = value;
         }
 
-        Constant(byte tag, int nameIndex, int typeIndex) {
+        public Constant(byte tag, int nameIndex, int typeIndex) {
             _tag = tag;
             _nameIndex = nameIndex;
             _typeIndex = typeIndex;
             _value = null;
         }
 
-        byte getTag() {
+        public byte getTag() {
             return _tag;
         }
 
-        int getNameIndex() {
+        public int getNameIndex() {
             return _nameIndex;
         }
 
-        int getTypeIndex() {
+        public int getTypeIndex() {
             return _typeIndex;
         }
 
-        Object getValue() {
+        public Object getValue() {
             return _value;
         }
 
@@ -617,7 +622,7 @@ public class ClassFileParser extends AbstractParser {
         }
     }
 
-    class FieldOrMethodInfo {
+    protected class FieldOrMethodInfo {
 
         private int _accessFlags;
 
@@ -627,22 +632,22 @@ public class ClassFileParser extends AbstractParser {
         
         private AttributeInfo _runtimeVisibleAnnotations;
 
-        FieldOrMethodInfo(int accessFlags, int nameIndex, int descriptorIndex) {
+        public FieldOrMethodInfo(int accessFlags, int nameIndex, int descriptorIndex) {
 
             _accessFlags = accessFlags;
             _nameIndex = nameIndex;
             _descriptorIndex = descriptorIndex;
         }
 
-        int accessFlags() {
+        public int accessFlags() {
             return _accessFlags;
         }
 
-        int getNameIndex() {
+        public int getNameIndex() {
             return _nameIndex;
         }
 
-        int getDescriptorIndex() {
+        public int getDescriptorIndex() {
             return _descriptorIndex;
         }
 
@@ -670,7 +675,7 @@ public class ClassFileParser extends AbstractParser {
         }
     }
 
-    class AttributeInfo {
+    protected class AttributeInfo {
 
         private String name;
 
