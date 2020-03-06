@@ -1,6 +1,6 @@
 ## Version 2.10 - 3/6/20
 
-- Add support for Java 8 constants (thanks jcestibariz!)
+- Official release that includes support for Java 8 constants, thanks to @jcestibariz (<https://github.com/clarkware/jdepend/pull/9>)
 
 ## Version 2.9.1 - 5/6/05
 
@@ -10,17 +10,21 @@
 
 - Includes the Module Dependencies fixture for FitNesse, contributed
   by Bob Martin.  Thanks, Bob!
-  (See http://www.butunclebob.com/ArticleS.UncleBob.JdependFixture)
+  (See <http://www.butunclebob.com/ArticleS.UncleBob.JdependFixture>)
 
 - Declared components now include an implicit trailing ".".
   For example, if you want to treat all sub-packages beneath
   the "com.foo" package as a component, use
 
-    java jdepend.textui.JDepend -components com.foo /path/to/classes
+  ~~~sh
+  java jdepend.textui.JDepend -components com.foo /path/to/classes
+  ~~~
 
   or, programmatically, use
 
-    jdepend.setComponents("com.foo");
+  ~~~sh
+  jdepend.setComponents("com.foo");
+  ~~~
 
   Note, however, that an implicit "." will be appended ("com.foo."),
   which means that the package "com.foobar", for example, will NOT be
