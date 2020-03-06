@@ -1,37 +1,34 @@
-JDepend Change Log
+## Version 2.10 - 3/6/20
 
+- Add support for Java 8 constants (thanks jcestibariz!)
 
-Version 2.9.1 - 5/6/05
-----------------------
+## Version 2.9.1 - 5/6/05
 
 - Fixed the GUI runner to support the -components option.
 
-Version 2.9 - 12/27/04
-----------------------
+## Version 2.9 - 12/27/04
 
 - Includes the Module Dependencies fixture for FitNesse, contributed
   by Bob Martin.  Thanks, Bob!
   (See http://www.butunclebob.com/ArticleS.UncleBob.JdependFixture)
 
-- Declared components now include an implicit trailing ".".    
+- Declared components now include an implicit trailing ".".
   For example, if you want to treat all sub-packages beneath
   the "com.foo" package as a component, use
 
     java jdepend.textui.JDepend -components com.foo /path/to/classes
 
-  or, programmatically, use 
+  or, programmatically, use
 
     jdepend.setComponents("com.foo");
 
   Note, however, that an implicit "." will be appended ("com.foo."),
-  which means that the package "com.foobar", for example, will NOT be 
+  which means that the package "com.foobar", for example, will NOT be
   included in the "com.foo" component.
- 
+
 - Added a version number to the JAR file.
 
-
-Version 2.8 - 9/2/04
---------------------
+## Version 2.8 - 9/2/04
 
 - Components can now be defined using the -components option to any
   JDepend user interface.
@@ -46,17 +43,13 @@ Version 2.8 - 9/2/04
 - Fixed a minor bug that was exhausting file descriptors for large
   (2000+) file sets.
 
-
-Version 2.7 - 4/10/04
----------------------
+## Version 2.7 - 4/10/04
 
 - Set UTF-8 as the output encoding for the XML output so that the XML
   file generated is valid if the data contains non-ASCII
   characters. (Thanks to Olivier Mengue.)
 
-
-Version 2.6 - 2/19/04 (Somewhere between Denver and Austin)
------------------------------------------------------------
+## Version 2.6 - 2/19/04 (Somewhere between Denver and Austin)
 
 - Classes in .jar, .war, and .zip files are now analyzed.
 
@@ -64,9 +57,7 @@ Version 2.6 - 2/19/04 (Somewhere between Denver and Austin)
   and to start experimenting with more exhaustive cycle detection
   techniques.
 
-
-Version 2.5 - 2/17/03
----------------------
+## Version 2.5 - 2/17/03
 
 - Source-file analysis is no longer supported.
 
@@ -84,9 +75,7 @@ Version 2.5 - 2/17/03
   -g:source), otherwise "Unknown" is returned. (Thanks to Ben Walding
   for contributing this code!)
 
-
-Version 2.4 - 2/5/03
---------------------
+## Version 2.4 - 2/5/03
 
 - Source-file analysis is now deprecated. Please adjust to using
   class-file analysis by simply pointing JDepend at directories
@@ -98,9 +87,7 @@ Version 2.4 - 2/5/03
 
 - Unzips into versioned directory.
 
-
-Version 2.3 - 1/3/03
---------------------
+## Version 2.3 - 1/3/03
 
 - Removed java.* and javax.* from the default package filter. By
   default, no packages are filtered.
@@ -123,9 +110,7 @@ Version 2.3 - 1/3/03
 - Reorganized directory structure to include top-level 'src' and
   'tests' directories.
 
-
-Version 2.2 - 10/25/01
-----------------------
+## Version 2.2 - 10/25/01
 
 - Removed validation of major/minor class file versions during class
   file parsing to support Java 1.4 and beyond.
@@ -135,9 +120,7 @@ Version 2.2 - 10/25/01
 - Clean-up of build.xml for consistency and added example use of
   JDepend Ant task.
 
-
-Version 2.1 - 8/6/01
---------------------
+## Version 2.1 - 8/6/01
 
 - When parsing class files, constant pool class constants that refer
   to array types are now properly parsed.
@@ -145,9 +128,7 @@ Version 2.1 - 8/6/01
 - When parsing source files, leading spaces are now properly parsed
   for package names, imports, and class declarations.
 
-
-Version 2.0 - 8/1/01
---------------------
+## Version 2.0 - 8/1/01
 
 - Added support for parsing class files in addition to source files.
   Class file parsing is more accurate in its ability to identify
@@ -160,9 +141,7 @@ Version 2.0 - 8/1/01
   analyzed and the source file is ignored. Class files must exist in a
   directory; JAR files are not supported in this release.
 
-
-Version 1.4 - 7/20/01
----------------------
+## Version 1.4 - 7/20/01
 
 - Added package dependency constraints to support writing tests that
   fail if any package dependency other than those declared in the
@@ -172,9 +151,7 @@ Version 1.4 - 7/20/01
   metrics, dependencies, and cycles in an XML format for easier
   integration with other tools.
 
-
-Version 1.3 - 7/5/01
---------------------
+## Version 1.3 - 7/5/01
 
 - Package dependency cycles can now detected and the packages
   participating in a package dependency cycle can be traversed. By
@@ -186,9 +163,7 @@ Version 1.3 - 7/5/01
   contains example JUnit test methods for automatically checking for
   the existence of package dependency cycles.
 
-
-Version 1.2 - 5/11/01
----------------------
+## Version 1.2 - 5/11/01
 
 - Recognition of 'final' and 'strictfp' class modifiers.
 
@@ -201,8 +176,6 @@ Version 1.2 - 5/11/01
 
 - Improved command-line error handling.
 
-
-Version 1.1 - 1/25/01
----------------------
+## Version 1.1 - 1/25/01
 
 - Initial public release.
