@@ -128,7 +128,7 @@ public class ClassFileParserTest extends JDependTestCase {
         assertTrue(imports.contains(new JavaPackage("jdepend.framework.p1")));
         assertTrue(imports.contains(new JavaPackage("jdepend.framework.p2")));
         assertTrue(imports.contains(new JavaPackage("java.awt.im")));
-        assertTrue(imports.contains(new JavaPackage("java.awt.dnd.peer")));
+        assertTrue(imports.contains(new JavaPackage("java.awt.dnd")));
     }
 
     public void testInnerClass() throws IOException {

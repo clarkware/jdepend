@@ -54,7 +54,7 @@ public class ExampleConcreteClass extends ExampleAbstractClass {
     		c2 = java.awt.image.renderable.ContextualRenderedImageFactory.class,
     		c3 = @ExampleInnerAnnotation({
     				java.awt.im.InputContext.class,
-    				java.awt.dnd.peer.DragSourceContextPeer.class}),
+    				java.awt.dnd.DragSourceContext.class}),
     		c4 = ExampleEnum.E1)
 	@org.junit.Ignore
     public void f() {
