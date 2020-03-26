@@ -1,7 +1,11 @@
 package jdepend.framework;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.StringTokenizer;
 
 /**
  * The <code>JDepend</code> class analyzes directories of Java class files 
@@ -234,15 +238,27 @@ public class JDepend {
     }
 
     /**
-     * Indicates whether the analyzed packages match the specified 
-     * dependency constraint.
-     * 
-     * @return <code>true</code> if the packages match the dependency
-     *         constraint
-     */
+	 * Indicates whether the analyzed packages match the specified dependency
+	 * constraint.
+	 * 
+	 * @return <code>true</code> if the packages match the dependency constraint
+	 * @deprecated use {@link #followsDirective(DependencyDirective)} instead.
+	 */
     public boolean dependencyMatch(DependencyConstraint constraint) {
         return constraint.match(getPackages());
     }
+
+	/**
+	 * Indicates whether the analyzed packages follow the specified dependency
+	 * directive.
+	 * 
+	 * @param directive
+	 *            the directive that is verified.
+	 * @return <code>true</code> if the packages follow the directive.
+	 */
+	public boolean followsDirective(DependencyDirective directive) {
+		return directive.followsDirective(getPackages());
+	}
 
     /**
      * Registers the specified parser listener.
