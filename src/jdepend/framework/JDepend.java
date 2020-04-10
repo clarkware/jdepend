@@ -171,6 +171,16 @@ public class JDepend {
     }
 
     /**
+     * Sets the list of components from a List of string package names.
+     *
+     * @param components within the list
+     */
+    public void setComponents(List components) {
+        this.components = new ArrayList();
+        this.components.addAll(components);
+    }
+
+    /**
      * Determines whether inner classes are analyzed.
      * 
      * @param b <code>true</code> to analyze inner classes; 
